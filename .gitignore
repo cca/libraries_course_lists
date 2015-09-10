@@ -1,0 +1,5 @@
+*.pyc
+data/
+complete/
+logs/
+.equellarc
