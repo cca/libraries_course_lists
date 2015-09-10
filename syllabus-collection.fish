@@ -3,6 +3,7 @@
 # usage:
 #   ./syllabus-collection.fish informer.csv
 
+# load log function
 source log.fish
 
 set --local dept SYLLABUS

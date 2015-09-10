@@ -1,13 +1,17 @@
+# Course Lists
+
+Scripts to process course information exported from Informer reports into CSVs and text files, which are then uploaded into VAULT as EQUELLA taxonomies.
+
 ## Requirements
 
 There's a lot, actually. Builds heavily upon my usual command line setup. The `brew` commands below refer to [Homebrew](http://brew.sh).
 
 - Node & NPM (needed for `eq`), `brew install node`
 - Python 2.\*, comes with Mac OS X by default
-- Fish shell, `brew install fish`
+- Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
 - jq, `brew install jq`
-- The equella-cli npm module (`npm i -g equella-cli`) with administrator credentials in an .equellarc file located either in your user's home directory (used within scripts in calls to `uptaxo`)
-- My `uptaxo` script which puts a light CLI around the EQUELLA taxonomy update script
+- My [equella-cli](https://github.com/cca/equella_cli) npm module (`npm i -g equella-cli`) with administrator credentials in an .equellarc file located in your user's home directory (used within scripts in calls to `uptaxo`)
+- My `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
 
 ## Sequencing of commands:
 

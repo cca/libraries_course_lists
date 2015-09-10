@@ -1,8 +1,9 @@
 #!/usr/bin/env fish
 # usage:
-#   ./upload-taxos-to-vault.fish informer-report.csv
-# where "informer-report.csv" is the full semester Informer report
+#   ./upload-taxos-to-vault.fish informer.csv
+# where "informer.csv" is the full semester Informer report
 
+# load log function
 source log.fish
 
 set --local filename $argv[1]
@@ -12,7 +13,7 @@ set --local pw (jq -r '.password' ~/.equellarc)
 set --local un (jq -r '.username' ~/.equellarc)
 
 # parse all department codes listed in the report
-# trim header row with tail -n +2
+# trim header row with tail -n +2 (might need gnu tail not OS X?)
 set --local depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq)
 
 for dept in $depts

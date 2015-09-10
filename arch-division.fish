@@ -6,6 +6,7 @@
 # run ONLY AFTER extracting all the departmental CSVs, e.g. by running the Informer
 # report & running ./make-all-taxo-csvs.fish informer.csv
 
+# load log function
 source log.fish
 
 set --local depts 'ARCHT' 'INTER' 'MARCH'

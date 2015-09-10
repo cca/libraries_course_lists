@@ -1,3 +1,4 @@
+# abstraction for writing messages to a provided log file
 function log -d 'write message to given log file'
     set msg $argv[1]
     set logfile $argv[2]
