@@ -5,7 +5,7 @@ import csv
 
 # CLI arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('file', nargs='?', help='CSV of the Informer Report')
+parser.add_argument('file', help='CSV of the Informer report')
 args = parser.parse_args()
 
 
@@ -37,7 +37,7 @@ columns = [
 ]  # we leave off last "student count" column because it's unused
 reader = csv.DictReader(report, columns)
 # output data structure, will end up looking like
-# {'ANIMA': set(['asmith', 'bsmith', 'csmith']), 'ARCHT': set([…])}
+# {'ANIMA': set(['asmith', 'bsmith', 'csmith']), 'ARCHT': set([...])}
 depts = {}
 
 

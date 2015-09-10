@@ -6,7 +6,7 @@ import csv
 
 # CLI arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('file', nargs='?', help='CSV of the Informer Report')
+parser.add_argument('file', nargs='?', help='CSV of the Informer report')
 parser.add_argument('-o', '--open-report',
                     help='open the appropriate Informer report',
                     action='store_true')
