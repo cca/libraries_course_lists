@@ -14,18 +14,28 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 ```sh
 > # open Informer report, run it for the semester
 > # options: *WITH HEADER ROW*, comma-separated multi-value fields
-> ./course-csv-to-taxo.py --open-report
-> # create ALL the CSVs, they reside in the "data" directory
+> python course-csv-to-taxo.py --open-report
+> # create ALL the CSVs
 > ./make-all-taxo-csvs.fish informer.csv
 > # upload everything to VAULT, will take a while
-> # taxonomy upload status is logged to logs/(today's date).txt
-> # some errors & information are still printed to the terminal
 > ./upload-taxos-to-vault.fish informer.csv
 > # Syllabus Collection is a special snowflake
 > ./syllabus-collection.fish informer.csv
 > # same for Architecture Division
 > ./arch-division.fish  # note: no need to pass file name argument
+> # generate LDAP group listings
+> python faculty-ldap-groups.py informer.csv
 ```
+
+## Files Generated
+
+**CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the EQUELLA taxonomy upload script necessitates.
+
+Faculty LDAP group text files are also placed in the "data" directory.
+
+**Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt` for the most part, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the syllabus and architecture scripts each have their own logs.
+
+When you're finished with an update, you can move all the generated data to an archive location with `./move-to-complete.fish` which moves everything in the "data" directory into a directory under "complete" named after the current date.
 
 ## LICENSE
 
