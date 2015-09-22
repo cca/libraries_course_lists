@@ -16,7 +16,7 @@ set --local un (jq -r '.username' ~/.equellarc)
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
 set --local depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # also remove Architecture Division programs which are handled separately
-    sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e 'CRITI')
+    sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d')
 
 for dept in $depts
     # full course list
