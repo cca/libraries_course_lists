@@ -12,7 +12,7 @@ set --local dept $argv[2]
 
 csvcut -c 3 $filename | sort | uniq > data/$dept-course-titles.csv
 and echo "Wrote $dept course titles CSV…"
-csvcut -c 4 $filename | sort | uniq > data/$dept-faculty-names.csv
+csvcut -c 4 $filename | sort | uniq | sed -e '/Standby/d' > data/$dept-faculty-names.csv
 and echo "Wrote $dept faculty names CSV…"
 csvcut -c 5 $filename | sort | uniq > data/$dept-section-names.csv
 and echo "Wrote $dept section names CSV…"
