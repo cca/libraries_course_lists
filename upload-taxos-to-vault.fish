@@ -14,7 +14,9 @@ set --local un (jq -r '.username' ~/.equellarc)
 
 # parse all department codes listed in the report
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
-set --local depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq)
+set --local depts (  \
+    # also remove Architecture Division programs which are handled separately
+    | sort | uniq | sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e 'CRITI')
 
 for dept in $depts
     # full course list
