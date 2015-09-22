@@ -21,9 +21,9 @@ set --local logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 rm tmpfile
 # create a couple CSVs not made in any other steps
 # XList IDs, deleting the empty row with sed
-csvcut -c 7 $filename | sort | uniq | sed -e '/""/d' > $dir/$dept-xlist.csv
+csvcut -c 7 $filename | sort | uniq | tail -n +2 | sed -e '/""/d' > $dir/$dept-xlist.csv
 and echo "Wrote $dept XList IDs CSV…"
-csvcut -c 2 $filename | sort | uniq > $dir/$dept-dept-codes.csv
+csvcut -c 2 $filename | sort | uniq | tail -n +2 > $dir/$dept-dept-codes.csv
 and echo "Wrote $dept department codes CSV…"
 
 # update all taxonomies
