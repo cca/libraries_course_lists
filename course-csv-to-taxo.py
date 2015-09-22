@@ -83,6 +83,6 @@ for row in reader:
         # path is over, these are taxonomy data keys
         # format is "key,value"
         out += '"CrsName","%s",' % row['course']
-        out += '"Xlist","%s",' % row['xlist']
+        out += '"XList","%s",' % row['xlist']
         out += '"facultyID","%s",' % row['usernames']
         print(out)
