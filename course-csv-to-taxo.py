@@ -21,21 +21,7 @@ if args.open_report:
     exit()
 
 
-def skip_header(fp):
-    """
-    given a file pointer, check if the CSV has a header row
-    if so, skip to the next row so DictReader starts with content
-    """
-    # check for header row
-    if csv.Sniffer().has_header(fp.read(1024)):
-        # return to beginning of file & skip first line
-        fp.seek(0)
-        next(fp)
-
-
 report = open(args.file, 'rb')
-# skip header row
-skip_header(report)
 # the columns in the department-specific Informer CSV, in order
 columns = [
     'semester',
