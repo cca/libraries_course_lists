@@ -12,10 +12,13 @@ set --local pw (jq -r '.password' ~/.equellarc)
 set --local un (jq -r '.username' ~/.equellarc)
 cp $argv[1] $dir/$dept.csv
 set --local filename $dir/$dept.csv
+# need to trim header row for get-columns
+tail -n +2 $dir/$dept.csv > tmpfile
 set --local logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 
 # create CSVs for all taxonomies
-./get-columns.fish $filename SYLLABUS
+./get-columns.fish tmpfile SYLLABUS
+rm tmpfile
 # create a couple CSVs not made in any other steps
 # XList IDs, deleting the empty row with sed
 csvcut -c 7 $filename | sort | uniq | sed -e '/""/d' > $dir/$dept-xlist.csv
