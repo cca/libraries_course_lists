@@ -7,20 +7,21 @@
 # > ./get-columns.fish pntdr-export.csv PNTDR
 
 # will fail with an error if either of these args is missing
-set --local filename $argv[1]
-set --local dept $argv[2]
+set filename $argv[1]
+set dept $argv[2]
 
-csvcut -c 3 $filename | sort | uniq > data/$dept-course-titles.csv
+csvcut -c 3 $filename | tail -n +2 | sort | uniq > data/$dept-course-titles.csv
 and echo "Wrote $dept course titles CSV…"
-csvcut -c 4 $filename | sort | uniq | sed -e '/Standby/d' > data/$dept-faculty-names.csv
+# @TODO ideally we'd use case insensitive deletion here
+csvcut -c 4 $filename | tail -n +2 | sort | uniq | sed -e '/Standby/d' > data/$dept-faculty-names.csv
 and echo "Wrote $dept faculty names CSV…"
-csvcut -c 5 $filename | sort | uniq > data/$dept-section-names.csv
+csvcut -c 5 $filename | tail -n +2 | sort | uniq > data/$dept-section-names.csv
 and echo "Wrote $dept section names CSV…"
-csvcut -c 6 $filename | sort | uniq > data/$dept-courses.csv
+csvcut -c 6 $filename | tail -n +2 | sort | uniq > data/$dept-courses.csv
 and echo "Wrote $dept courses CSV…"
 
 # first sort file (first column is semester), then process
-csvsort $filename > tmp; mv tmp $filename
+csvsort $filename | tail -n +2 > tmp; mv tmp $filename
 if [ $dept = 'ARCHT' -o $dept = 'MARCH' -o $dept = 'INTER' -o $dept = 'SYLLABUS' ]
     ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
 else
