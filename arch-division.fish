@@ -9,14 +9,18 @@
 # load log function
 source log.fish
 
-set --local depts 'ARCHT' 'INTER' 'MARCH'
-set --local div 'ARCH DIV'
-set --local dir data
-set --local pw (jq -r '.password' ~/.equellarc)
-set --local un (jq -r '.username' ~/.equellarc)
-set --local logfile logs/(date "+%Y-%m-%d")-architecture.txt
+set depts 'ARCHT' 'INTER' 'MARCH'
+set div 'ARCH DIV'
+set dir data
+set pw (jq -r '.password' ~/.equellarc)
+set un (jq -r '.username' ~/.equellarc)
+set logfile logs/(date "+%Y-%m-%d")-architecture.txt
 
 # combine departmental CSVs into division-level ones
+# wipe out any previous division-level taxos, let's script be run multiple times
+log 'deleting any previous taxonomy files' $logfile
+rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv $dir/$div-courses.csv $dir/$div-faculty-names.csv $dir/$div-section-names.csv >> $logfile
+
 for dept in $depts
     cat $dir/$dept-course-list-taxo.csv >> $dir/$div-course-list-taxo.csv
     cat $dir/$dept-course-titles.csv >> $dir/$div-course-titles.csv
