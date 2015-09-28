@@ -21,6 +21,8 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 > python course-csv-to-taxo.py --open-report
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish informer.csv
+> # delete the last semesters taxonomy terms, will be replaced in the next step
+> ./delete-all-of-a-semester.fish informer.csv "Fall 2015"
 > # upload everything to VAULT, will take a while
 > ./upload-taxos-to-vault.fish informer.csv
 > # Syllabus Collection is a special snowflake

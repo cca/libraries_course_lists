@@ -6,16 +6,16 @@
 # load log function
 source log.fish
 
-set --local filename $argv[1]
-set --local dir data
-set --local logfile logs/(date "+%Y-%m-%d").txt
-set --local pw (jq -r '.password' ~/.equellarc)
-set --local un (jq -r '.username' ~/.equellarc)
+set filename $argv[1]
+set dir 'data'
+set logfile logs/(date '+%Y-%m-%d').txt
+set pw (jq -r '.password' ~/.equellarc)
+set un (jq -r '.username' ~/.equellarc)
 
 # parse all department codes listed in the report
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
-set --local depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
-    # also remove Architecture Division programs which are handled separately
+set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
+    # remove Architecture Division (handled separately) & Fine Arts critiques (no taxos)
     sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d')
 
 for dept in $depts
