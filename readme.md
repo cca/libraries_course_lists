@@ -13,24 +13,29 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 - My [equella-cli](https://github.com/cca/equella_cli) npm module (`npm i -g equella-cli`) with administrator credentials in an .equellarc file located in your user's home directory (used within scripts in calls to `uptaxo`)
 - My `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
 
-## Sequencing of commands:
+## Sequencing of Scripts:
+
+First, generate an Informer report of the current semester's courses. You can open the report URL with `python course-csv-to-taxo.py --open-report`. If you want to refresh just a single department's course list, you can simply specify that department in the report query. Download the report as a CSV, with the following settings:
+
+- _with header row_ because the csvkit tools will assume one anyways, otherwise first row will be cut off everywhere
+- _comma-separated multivalue fields_ needed so facultyID is handled appropriately
+- _do not use Excel date format_ because then the `MARCH` department code will turn into `9999-03-31` (true story)
+
+Once you have a report downloaded, say named "infomer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
 
 ```sh
-> # open Informer report, run it for the semester
-> # options: *WITH HEADER ROW*, comma-separated multi-value fields
-> python course-csv-to-taxo.py --open-report
 > # create ALL the CSVs
-> ./make-all-taxo-csvs.fish informer.csv
-> # delete the last semesters taxonomy terms, will be replaced in the next step
-> ./delete-all-of-a-semester.fish informer.csv "Fall 2015"
-> # upload everything to VAULT, will take a while
-> ./upload-taxos-to-vault.fish informer.csv
+> ./make-all-taxo-csvs.fish data/informer.csv
+> # delete the last semester's taxonomy terms, will be replaced in next step
+> ./delete-all-of-a-semester.fish data/informer.csv "Fall 2015"
+> # upload everything to VAULT, takes a while
+> ./upload-taxos-to-vault.fish data/informer.csv
 > # Syllabus Collection is a special snowflake
-> ./syllabus-collection.fish informer.csv
+> ./syllabus-collection.fish data/informer.csv
 > # same for Architecture Division
 > ./arch-division.fish  # note: no need to pass file name argument
-> # generate LDAP group listings
-> python faculty-ldap-groups.py informer.csv
+> # generate LDAP group listings, only the first 1 or 2 runs per semester
+> python faculty-ldap-groups.py data/informer.csv
 ```
 
 ## Files Generated
