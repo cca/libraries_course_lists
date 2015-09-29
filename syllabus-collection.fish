@@ -6,15 +6,15 @@
 # load log function
 source log.fish
 
-set --local dept SYLLABUS
-set --local dir data
-set --local pw (jq -r '.password' ~/.equellarc)
-set --local un (jq -r '.username' ~/.equellarc)
+set dept SYLLABUS
+set dir data
+set pw (jq -r '.password' ~/.equellarc)
+set un (jq -r '.username' ~/.equellarc)
 cp $argv[1] $dir/$dept.csv
-set --local filename $dir/$dept.csv
+set filename $dir/$dept.csv
 # need to trim header row for get-columns
 tail -n +2 $dir/$dept.csv > tmpfile
-set --local logfile logs/(date "+%Y-%m-%d")-syllabus.txt
+set logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 
 # create CSVs for all taxonomies
 ./get-columns.fish tmpfile SYLLABUS
@@ -29,7 +29,7 @@ and echo "Wrote $dept department codes CSV…"
 # update all taxonomies
 # main course list
 set uuid (eq tax --name "$dept - COURSE LIST" | jq -r '.uuid')
-# @TODO should we delete current semester prior?
+# @TODO should a script delete current semester prior?
 # place to do it would be in "delete-all-of-a-semester.fish" script
 if [ $uuid ]
     log "UPDATING TAXONOMY ID $uuid" $logfile
