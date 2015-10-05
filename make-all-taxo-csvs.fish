@@ -15,7 +15,7 @@ set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq)
 
 for dept in $depts
     # slice rows from deparment into own CSV
-    csvgrep -c 2 -r $dept $filename > data/$dept.csv
+    csvgrep -c 2 -r $dept $filename | tail -n +2 > data/$dept.csv
     and echo "Cut $dept department rows out of $filename report"
     # separate script breaks out all the necessary columns into own CSVs
     # and creates EQUELLA-ready taxonomy in the process
