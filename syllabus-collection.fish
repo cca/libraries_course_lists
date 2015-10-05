@@ -10,22 +10,18 @@ set dept SYLLABUS
 set dir data
 set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
-cp $argv[1] $dir/$dept.csv
-set filename $dir/$dept.csv
-# need to trim header row for get-columns
-tail -n +2 $dir/$dept.csv > tmpfile
+set filename $argv[1]
 set logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 
 # create CSVs for all taxonomies
-./get-columns.fish tmpfile SYLLABUS
-rm tmpfile
+./get-columns.fish $filename SYLLABUS
 # create a couple CSVs not made in any other steps
 # XList IDs, deleting the empty row with sed
 csvcut -c 7 $filename | tail -n +2 | sort | uniq  | sed -e '/""/d' > $dir/$dept-xlist.csv
 and echo "Wrote $dept XList IDs CSV…"
 csvcut -c 2 $filename | tail -n +2 | sort | uniq  > $dir/$dept-dept-codes.csv
 and echo "Wrote $dept department codes CSV…"
-
+exit
 # update all taxonomies
 # main course list
 set uuid (eq tax --name "$dept - COURSE LIST" | jq -r '.uuid')
