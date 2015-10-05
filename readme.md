@@ -19,7 +19,6 @@ First, generate an Informer report of the current semester's courses. You can op
 
 - _with header row_ because the csvkit tools will assume one anyways, otherwise first row will be cut off everywhere
 - _comma-separated multivalue fields_ needed so facultyID is handled appropriately
-- _do not use Excel date format_ because then the `MARCH` department code will turn into `9999-03-31` (true story)
 
 Once you have a report downloaded, say named "infomer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
 
