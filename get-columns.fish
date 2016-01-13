@@ -7,8 +7,8 @@
 # > ./get-columns.fish pntdr-export.csv PNTDR
 
 # will fail with an error if either of these args is missing
-set filename $argv[1]
-set dept $argv[2]
+set dept $argv[1]
+set filename $argv[2]
 
 csvcut -c 3 $filename | tail -n +2 | sort | uniq > data/$dept-course-titles.csv
 and echo "Wrote $dept course titles CSV…"
