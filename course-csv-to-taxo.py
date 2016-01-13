@@ -16,8 +16,7 @@ parser.add_argument('-p', '--program',
 args = parser.parse_args()
 
 if args.open_report:
-    webbrowser.open('https://vm-informer-01.cca.edu/informer/?locale=en_US\
-                    #action=ReportRun&reportId=25428063&launch=false')
+    webbrowser.open('https://vm-informer-01.cca.edu/informer/?locale=en_US#action=ReportRun&reportId=25428063&launch=false')
     exit()
 
 
