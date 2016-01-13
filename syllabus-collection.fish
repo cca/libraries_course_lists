@@ -14,7 +14,7 @@ set filename $argv[1]
 set logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 
 # create CSVs for all taxonomies
-./get-columns.fish $filename SYLLABUS
+./get-columns.fish SYLLABUS $filename
 # create a couple CSVs not made in any other steps
 # XList IDs, deleting the empty row with sed
 csvcut -c 7 $filename | tail -n +2 | sort | uniq  | sed -e '/""/d' > $dir/$dept-xlist.csv

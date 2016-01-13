@@ -36,49 +36,55 @@ grep 'Xlist",".*","faculty' $dir/$div-course-list-taxo.csv --color=never \
 # upload new, division-level CSVs to appropriate taxonomies
 
 # main course list
-set uuid (eq tax --name "$div - COURSE LIST" | jq -r '.uuid')
+set tax "$div - COURSE LIST"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-list-taxo.csv >> $logfile
 end
 
 # course titles
-set uuid (eq tax --name "$div - course titles" | jq -r '.uuid')
+set tax "$div - course titles"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-titles.csv >> $logfile
 end
 
 # faculty names
-set uuid (eq tax --name "$div - faculty" | jq -r '.uuid')
+set tax "$div - faculty"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-faculty-names.csv >> $logfile
 end
 
 # course names e.g. ARCHT-101
-set uuid (eq tax --name "$div - course names" | jq -r '.uuid')
+set tax "$div - course names"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-courses.csv >> $logfile
 end
 
 # course sections
-set uuid (eq tax --name "$div - course sections" | jq -r '.uuid')
+set tax "$div - course sections"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-section-names.csv >> $logfile
 end
 
 # XList IDs
-set uuid (eq tax --name "$div - cross-list keys" | jq -r '.uuid')
+set tax "$div - cross-list keys"
+set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "UPDATING TAXONOMY ID $uuid" $logfile
+    log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-xlist.csv >> $logfile
 end
