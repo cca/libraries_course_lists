@@ -9,32 +9,36 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 - Node & NPM (needed for `eq`), `brew install node`
 - Python 2.\*, comes with Mac OS X by default
 - Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
-- jq, `brew install jq`
-- My [equella-cli](https://github.com/cca/equella_cli) npm module (`npm i -g equella-cli`) with administrator credentials in an .equellarc file located in your user's home directory (used within scripts in calls to `uptaxo`)
+- `jq` command-line JSON processor, `brew install jq`
+- My [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)
 - My `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
 
 ## Sequencing of Scripts:
 
-First, generate an Informer report of the current semester's courses. You can open the report URL with `python course-csv-to-taxo.py --open-report`. If you want to refresh just a single department's course list, you can simply specify that department in the report query. Download the report as a CSV, with the following settings:
+First, generate an Informer report of the current semester's courses. You can open the report URL with `./course-csv-to-taxo.py --open-report`. If you want to refresh just a single department's course list, you can simply specify that department in the report query and follow the same steps here.
 
-- _with header row_ because the csvkit tools will assume one anyways, otherwise first row will be cut off everywhere
+Download the report as a CSV, with the following settings:
+
+- _with header row_ because the csvkit tools we use will assume one anyways, otherwise first row will get cut off everywhere
 - _comma-separated multivalue fields_ needed so facultyID is handled appropriately
 
-Once you have a report downloaded, say named "infomer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
+Once you have a report downloaded, say named "\_informer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
 
 ```sh
 > # create ALL the CSVs
-> ./make-all-taxo-csvs.fish data/informer.csv
+> ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, will be replaced in next step
-> ./delete-all-of-a-semester.fish data/informer.csv "Fall 2015"
+> # only need for subsequent updates, not the initial upload
+> ./delete-all-of-a-semester.fish data/_informer.csv
 > # upload everything to VAULT, takes a while
-> ./upload-taxos-to-vault.fish data/informer.csv
+> # stderr shows the "missing" taxonomies we don't need or haven't created yet
+> ./upload-taxos-to-vault.fish data/_informer.csv
 > # Syllabus Collection is a special snowflake
-> ./syllabus-collection.fish data/informer.csv
-> # same for Architecture Division
+> ./syllabus-collection.fish data/_informer.csv
+> # Architecture Division is also special
 > ./arch-division.fish  # note: no need to pass file name argument
 > # generate LDAP group listings, only the first 1 or 2 runs per semester
-> python faculty-ldap-groups.py data/informer.csv
+> python faculty-ldap-groups.py data/_informer.csv
 ```
 
 ## Files Generated
