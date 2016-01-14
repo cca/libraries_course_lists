@@ -15,9 +15,11 @@ def skip_header(fp):
     if so, skip to the next row so DictReader starts with content
     """
     # check for header row
-    if csv.Sniffer().has_header(fp.read(1024)):
-        # return to beginning of file & skip first line
-        fp.seek(0)
+    has_header = csv.Sniffer().has_header(fp.read(1024))
+    # return to start of file
+    fp.seek(0)
+    if has_header:
+        # skip first line
         next(fp)
 
 
@@ -52,7 +54,7 @@ for row in reader:
     else:
         depts[row['dept']].update(uns)
 
-# interate over data structure, writing out sorted lists of usernames to files
+# iterate over data structure, writing out sorted lists of usernames to files
 for dept in depts:
     # convert to list from set just so we can sort alphabetically
     uns = list(depts[dept])
