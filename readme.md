@@ -29,7 +29,7 @@ Once you have a report downloaded, say named "\_informer.csv" and in the "data" 
 > ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, will be replaced in next step
 > # only need for subsequent updates, not the initial upload
-> ./delete-all-of-a-semester.fish data/_informer.csv
+> ./delete-all-of-a-semester.fish data/_informer.csv 'Spring 2016'
 > # upload everything to VAULT, takes a while
 > # stderr shows the "missing" taxonomies we don't need or haven't created yet
 > ./upload-taxos-to-vault.fish data/_informer.csv
