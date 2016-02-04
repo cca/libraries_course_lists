@@ -15,8 +15,6 @@ set semester $argv[2]
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # delete the special snowflakes
     sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d' -e '/CRAFT/d' -e '/FNART/d')
-# prepend ARCH DIV onto the front…this would be the place to do SYLLABUS as well
-set depts 'ARCH DIV' $depts
 
 for dept in $depts
     set taxoID (eq tax --name "$dept - COURSE LIST" | jq -r '.uuid')

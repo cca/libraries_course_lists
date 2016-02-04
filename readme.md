@@ -27,8 +27,8 @@ Once you have a report downloaded, say named "\_informer.csv" and in the "data" 
 ```sh
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
-> # delete the last semester's taxonomy terms, will be replaced in next step
-> # only need for subsequent updates, not the initial upload
+> # delete the last semester's taxonomy terms, only run if not the initial upload
+> # NOTE: DOES NOT delete ARCH DIV or Syllabus Collection semesters, that's manual
 > ./delete-all-of-a-semester.fish data/_informer.csv 'Spring 2016'
 > # upload everything to VAULT, takes a while
 > # stderr shows the "missing" taxonomies we don't need or haven't created yet
