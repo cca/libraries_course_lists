@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 # usage:
-#   ./make-all-taxo-csvs.fish informer-report.csv
+#   ./make-all-taxo-csvs.fish data/_informer.csv
 #
-# where "informer-report.csv" is the full semester Informer report
+# where "_informer.csv" is the full semester Informer report
 # from this report:
 # vm-informer-01.cca.edu/informer/#action=ReportRun&reportId=25428063&launch=false
 # settings: header row, mutli-value fields separated by commas

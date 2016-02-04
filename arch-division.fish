@@ -4,7 +4,7 @@
 #   ./arch-division.fish
 #
 # run ONLY AFTER extracting all the departmental CSVs, e.g. by running the Informer
-# report & running ./make-all-taxo-csvs.fish informer.csv
+# report & running ./make-all-taxo-csvs.fish data/_informer.csv
 
 # load log function
 source log.fish
@@ -17,7 +17,7 @@ set un (jq -r '.username' ~/.equellarc)
 set logfile logs/(date "+%Y-%m-%d")-architecture.txt
 
 # combine departmental CSVs into division-level ones
-# wipe out any previous division-level taxos, let's script be run multiple times
+# wipe out any previous division-level taxos, lets the script be run multiple times
 log 'deleting any previous taxonomy files' $logfile
 rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv $dir/$div-courses.csv  $dir/$div-faculty-names.csv $dir/$div-section-names.csv 2>/dev/null
 

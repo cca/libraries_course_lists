@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 # usage:
-#   ./upload-taxos-to-vault.fish informer.csv
+#   ./upload-taxos-to-vault.fish data/_informer.csv
 # where "informer.csv" is the full semester Informer report
 
 # load log function

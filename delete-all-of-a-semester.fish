@@ -4,7 +4,7 @@
 # so instead we delete them all & then re-upload a new set of courses
 #
 # usage:
-#   ./delete-all-of-a-semester.fish informer.csv 'Fall 2015'
+#   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2015'
 
 # load log function
 source log.fish

@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 # Syllabus Collection is a bit special so gets its own script
 # usage:
-#   ./syllabus-collection.fish informer.csv
+#   ./syllabus-collection.fish data/_informer.csv
 
 # load log function
 source log.fish
