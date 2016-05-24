@@ -25,6 +25,8 @@ Download the report as a CSV, with the following settings:
 Once you have a report downloaded, say named "\_informer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
 
 ```sh
+> # check for non-ASCII characters (often accented chars in names) & manually remove them
+> ./find-non-ascii; eval "$EDITOR data/_informer.csv"
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, only run if not the initial upload
