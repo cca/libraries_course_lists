@@ -25,7 +25,7 @@ Download the report as a CSV, with the following settings:
 Once you have a report downloaded, say named "\_informer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
 
 ```sh
-> # check for non-ASCII characters (often accented chars in names) & manually remove them
+> # check for non-ASCII characters (often accented chars in names) & manually remove
 > ./find-non-ascii; eval "$EDITOR data/_informer.csv"
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
@@ -49,9 +49,9 @@ Once you have a report downloaded, say named "\_informer.csv" and in the "data" 
 
 Faculty LDAP group text files are also placed in the "data" directory.
 
-**Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt` for the most part, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the syllabus and architecture scripts each have their own logs.
+**Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt`, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the syllabus and architecture scripts each have their own logs.
 
-When you're finished with an update, you can move all the generated data to an archive location with `./move-to-complete.fish` which moves everything in the "data" directory into a directory under "complete" named after the current date.
+When you're finished with an update, move all the generated data to an archive location with `./move-to-complete.fish` which moves everything in the "data" directory into a directory under "complete" named after the current date.
 
 ## LICENSE
 
