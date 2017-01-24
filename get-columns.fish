@@ -2,9 +2,9 @@
 # from an Informer export of all course information for a department
 # use Python's csvkit to extract lists of faculty, course sections, names, & titles
 # usage:
-# ./get-columns.fish data/_informer.csv DEPT
+# ./get-columns.fish DEPT data/_informer.csv
 # e.g.
-# > ./get-columns.fish data/pntdr-report.csv PNTDR
+# > ./get-columns.fish PNTDR data/pntdr-report.csv
 
 # will fail with an error if either of these args is missing
 set dept $argv[1]
