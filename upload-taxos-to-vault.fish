@@ -68,3 +68,12 @@ for dept in $depts
             --csv $dir/$dept-section-names.csv >> $logfile
     end
 end
+
+# ENGAGE is an exception which we handle as its own department
+# but it's not listed in the informer CSV's department column
+set dept ENGAGE
+set tax "$dept - COURSE LIST"
+set uuid (eq tax --name $tax | jq -r '.uuid')
+log "Updating $tax taxonomy" $logfile
+uptaxo --tid $uuid --pw $pw --un $un \
+    --csv $dir/$dept-course-list-taxo.csv >> $logfile

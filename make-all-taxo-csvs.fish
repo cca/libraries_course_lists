@@ -21,3 +21,9 @@ for dept in $depts
     # and creates EQUELLA-ready taxonomy in the process
     ./get-columns.fish $dept data/$dept.csv
 end
+
+# ENGAGE courses could be under any department
+# so we handle them as a special case
+set dept ENGAGE
+csvgrep -c 3 -r 'Engage:' $filename > data/$dept.csv
+./get-columns $dept data/$dept.csv
