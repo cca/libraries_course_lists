@@ -26,4 +26,5 @@ end
 # so we handle them as a special case
 set dept ENGAGE
 csvgrep -c 3 -r 'Engage:' $filename > data/$dept.csv
-./get-columns $dept data/$dept.csv
+./course-csv-to-taxo.py data/$ENGAGE.csv > data/$dept-course-list-taxo.csv
+log "Created EQUELLA-ready '$dept - COURSE LIST' taxonomy CSV"
