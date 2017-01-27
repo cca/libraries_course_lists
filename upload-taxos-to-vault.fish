@@ -77,3 +77,13 @@ set uuid (eq tax --name $tax | jq -r '.uuid')
 log "Updating $tax taxonomy" $logfile
 uptaxo --tid $uuid --pw $pw --un $un \
     --csv $dir/$dept-course-list-taxo.csv >> $logfile
+
+# kick off the other, more complicated exceptions:
+# Syllabus Collection, Architecture Division
+echo 'Updating Syllabus Collection...' > /dev/stderr
+./syllabus-collection.fish $filename
+# since Architecture programs' individual taxonomies have
+# already been created, the necessary files are in the "data"
+# dir and we don't need to pass $filename to the script
+echo 'Updating Architecture Division...' > /dev/stderr
+./arch-division.fish

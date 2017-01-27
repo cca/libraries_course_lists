@@ -30,15 +30,10 @@ Once you have a report downloaded, say named "\_informer.csv" and in the "data" 
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, only run if not the initial upload
-> # NOTE: DOES NOT delete ARCH DIV or Syllabus Collection semesters, that's manual
 > ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2016'
 > # upload everything to VAULT, takes a while
 > # stderr shows the "missing" taxonomies we don't need or haven't created yet
 > ./upload-taxos-to-vault.fish data/_informer.csv
-> # Syllabus Collection is a special snowflake
-> ./syllabus-collection.fish data/_informer.csv
-> # Architecture Division is also special
-> ./arch-division.fish  # note: no need to pass file name argument
 > # generate LDAP group listings, only the first 1 or 2 runs per semester
 > python faculty-ldap-groups.py data/_informer.csv
 ```

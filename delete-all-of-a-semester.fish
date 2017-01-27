@@ -15,8 +15,8 @@ set semester $argv[2]
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # delete the special snowflakes
     sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d' -e '/CRAFT/d' -e '/FNART/d')
-# manually add ENGAGE
-set depts $depts ENGAGE
+# manually add the exceptions: ENGAGE, ARCH DIV, & SYLLABUS
+set depts $depts ENGAGE 'ARCH DIV' SYLLABUS
 
 for dept in $depts
     set taxoID (eq tax --name "$dept - COURSE LIST" | jq -r '.uuid')
