@@ -25,6 +25,5 @@ end
 # ENGAGE courses could be under any department
 # so we handle them as a special case
 set dept ENGAGE
-csvgrep -c 3 -r 'Engage:' $filename > data/$dept.csv
-./course-csv-to-taxo.py data/$ENGAGE.csv > data/$dept-course-list-taxo.csv
-log "Created EQUELLA-ready '$dept - COURSE LIST' taxonomy CSV"
+csvgrep -c 3 -r 'Engage:' $filename | tail -n +2 > data/$dept.csv
+./course-csv-to-taxo.py data/ENGAGE.csv > data/$dept-course-list-taxo.csv
