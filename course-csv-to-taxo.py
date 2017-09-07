@@ -19,8 +19,7 @@ if args.open_report:
     webbrowser.open('https://vm-informer-01.cca.edu/informer/?locale=en_US#action=ReportRun&reportId=25428063&launch=false')
     exit()
 
-
-report = open(args.file, 'rb')
+report = open(args.file, 'r')
 # the columns in the department-specific Informer CSV, in order
 columns = [
     'semester',
