@@ -6,9 +6,6 @@
 # load log function
 source log.fish
 
-# if we're using nvm, we may need to specify a node
-functions nvm > /dev/null; nvm use default
-
 set filename $argv[1]
 set dir 'data'
 set logfile logs/(date '+%Y-%m-%d').txt
