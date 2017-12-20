@@ -22,6 +22,17 @@ for dept in $depts
     ./get-columns.fish $dept data/$dept.csv
 end
 
+# CRITI courses are filed under INTDS
+if test -e data/CRITI.csv -a -e data/INTDS.csv
+    echo 'Adding CRITI courses to INTDS taxonomies'
+    for type in course-list-taxo course-titles courses faculty-names section-names;
+        cat data/CRITI-$type.csv data/INTDS-$type.csv > tmp
+        mv tmp data/INTDS-$type.csv
+        rm data/CRITI-$type.csv
+    end
+    rm data/CRITI.csv
+end
+
 # ENGAGE courses could be under any department
 # so we handle them as a special case
 set dept ENGAGE
