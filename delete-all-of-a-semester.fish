@@ -14,7 +14,7 @@ set filename $argv[1]
 set semester $argv[2]
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # delete the special snowflakes
-    sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d' -e '/CRAFT/d' -e '/FNART/d')
+    sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d' -e '/FNART/d')
 # manually add the exceptions: ENGAGE, ARCH DIV, & SYLLABUS
 set depts $depts ENGAGE 'ARCH DIV' SYLLABUS
 
