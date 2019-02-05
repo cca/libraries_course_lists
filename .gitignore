@@ -1,5 +1,6 @@
 *.pyc
-data/
-complete/
-logs/
+data/*.csv
+data/*.txt
+complete/**/
+logs/*.txt
 .equellarc
