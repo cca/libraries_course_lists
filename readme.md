@@ -8,10 +8,11 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 
 - Node & NPM (needed for `eq`), `brew install node`
 - Python 2.\*, comes with Mac OS X by default
+- Python's csv kit tools, `pip install csvkit`
 - Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
 - `jq` command-line JSON processor, `brew install jq`
-- My [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)
-- My `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
+- `eq`, the [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)
+- the `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
 
 ## Sequencing of Scripts:
 
