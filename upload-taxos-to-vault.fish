@@ -16,7 +16,7 @@ set un (jq -r '.username' ~/.equellarc)
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # remove Architecture Division (handled separately) plus Fine Arts critiques
-    sed -e '/ARCHT/d' -e '/INTER/d' -e '/MARCH/d' -e '/FNART/d' -e '/CRITI/d')
+    sed -e '/ARCHT/d' -e '/BARCH/d' -e '/INTER/d' -e '/MARCH/d' -e '/FNART/d' -e '/CRITI/d')
 
 for dept in $depts
     # full course list in EQUELLA taxonomy format

@@ -12,8 +12,7 @@ set filename $argv[2]
 
 csvcut -c 3 $filename | tail -n +2 | sort | uniq > data/$dept-course-titles.csv
 and echo "Wrote $dept course titles CSV…"
-# @TODO ideally we'd use case insensitive deletion here
-csvcut -c 4 $filename | tail -n +2 | sort | uniq | sed -e '/Standby/d' > data/$dept-faculty-names.csv
+csvcut -c 4 $filename | tail -n +2 | sort | uniq | gsed -E '/Standby/Id' > data/$dept-faculty-names.csv
 and echo "Wrote $dept faculty names CSV…"
 csvcut -c 5 $filename | tail -n +2 | sort | uniq > data/$dept-section-names.csv
 and echo "Wrote $dept section names CSV…"
@@ -23,7 +22,7 @@ and echo "Wrote $dept courses CSV…"
 # first sort file (first column is semester), then process
 # --no-inference REQUIRED b/c otherwise it translates "MARCH" to "9999-03-31"
 csvsort --no-inference $filename | tail -n +2 > tmp; mv tmp $filename
-if [ $dept = 'ARCHT' -o $dept = 'MARCH' -o $dept = 'INTER' -o $dept = 'SYLLABUS' ]
+if [ $dept = 'ARCHT' -o $dept = 'BARCH' -o $dept = 'INTER' -o $dept = 'MARCH' -o $dept = 'SYLLABUS' ]
     ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
 else
     ./course-csv-to-taxo.py $filename > data/$dept-course-list-taxo.csv

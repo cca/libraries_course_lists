@@ -9,7 +9,7 @@
 # load log function
 source log.fish
 
-set depts 'ARCHT' 'INTER' 'MARCH'
+set depts 'ARCHT' 'BARCH' 'INTER' 'MARCH'
 set div 'ARCH DIV'
 set dir data
 set pw (jq -r '.password' ~/.equellarc)
@@ -29,9 +29,9 @@ for dept in $depts
     cat $dir/$dept-section-names.csv >> $dir/$div-section-names.csv
 end
 # create XList ID CSV
-grep 'Xlist",".*","faculty' $dir/$div-course-list-taxo.csv --color=never \
-    | sed -e 's|".*Xlist",||' -e 's|,"faculty.*||' | sort | uniq | sed '/""/d' \
-    > $dir/$div-xlist.csv
+for dept in $depts
+    csvcut -c 7 $dir/$dept.csv | sort | uniq | sed '/""/d' >> $dir/$div-xlist.csv
+end
 
 # upload new, division-level CSVs to appropriate taxonomies
 
