@@ -12,7 +12,7 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 - Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
 - `jq` command-line JSON processor, `brew install jq`
 - `eq`, the [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)
-- the `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script
+- the `uptaxo` script (not included) which puts a light CLI around the EQUELLA taxonomy update script and its dependency `equellasoap.py` from the [openEQUELLA docs repo](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python)
 
 ## Sequencing of Scripts:
 
