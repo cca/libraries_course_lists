@@ -19,18 +19,17 @@ set logfile logs/(date "+%Y-%m-%d")-architecture.txt
 # combine departmental CSVs into division-level ones
 # wipe out any previous division-level taxos, lets the script be run multiple times
 log 'deleting any previous taxonomy files' $logfile
-rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv $dir/$div-courses.csv  $dir/$div-faculty-names.csv $dir/$div-section-names.csv 2>/dev/null
+rm $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv $dir/$div-courses.csv  $dir/$div-faculty-names.csv $dir/$div-section-names.csv 2>/dev/null
 
+# concatenate program data to make division-level taxos,
+# silencing stderr because one of ARCHT/BARCH will always be missing
 for dept in $depts
-    cat $dir/$dept-course-list-taxo.csv >> $dir/$div-course-list-taxo.csv
-    cat $dir/$dept-course-titles.csv >> $dir/$div-course-titles.csv
-    cat $dir/$dept-courses.csv >> $dir/$div-courses.csv
-    cat $dir/$dept-faculty-names.csv >> $dir/$div-faculty-names.csv
-    cat $dir/$dept-section-names.csv >> $dir/$div-section-names.csv
-end
-# create XList ID CSV
-for dept in $depts
-    csvcut -c 7 $dir/$dept.csv | sort | uniq | sed '/""/d' >> $dir/$div-xlist.csv
+    cat $dir/$dept-course-list-taxo.csv ^/dev/null>> $dir/$div-course-list-taxo.csv
+    cat $dir/$dept-course-titles.csv ^/dev/null>> $dir/$div-course-titles.csv
+    cat $dir/$dept-courses.csv ^/dev/null>> $dir/$div-courses.csv
+    cat $dir/$dept-faculty-names.csv ^/dev/null>> $dir/$div-faculty-names.csv
+    cat $dir/$dept-section-names.csv ^/dev/null>> $dir/$div-section-names.csv
+    csvcut -c 7 $dir/$dept.csv ^/dev/null | sort | uniq | sed '/""/d' >> $dir/$div-xlist.csv
 end
 
 # upload new, division-level CSVs to appropriate taxonomies
