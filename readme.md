@@ -16,18 +16,11 @@ There's a lot, actually. Builds heavily upon my usual command line setup. The `b
 
 ## Sequencing of Scripts:
 
-First, generate an Informer report of the current semester's courses. You can open the report URL with `./course-csv-to-taxo.py --open-report`. If you want to refresh just a single department's course list, you can simply specify that department in the report query and follow the same steps here.
+First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2019FA` where 2019FA is the current semester's short code.
 
-Download the report as a CSV, with the following settings:
-
-- _with header row_ because the csvkit tools we use will assume one anyways, otherwise first row will get cut off everywhere
-- _comma-separated multivalue fields_ needed so facultyID is handled appropriately
-
-Once you have a report downloaded, say named "\_informer.csv" and in the "data" directory as in the examples below, run the scripts in this order:
+Once you have the course data—expected to be named "\_informer.csv" and in the "data" directory—run the scripts in this order:
 
 ```sh
-> # check for non-ASCII characters (often accented chars in names) & manually remove
-> ./find-non-ascii; eval "$EDITOR data/_informer.csv"
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, only run if not the initial upload

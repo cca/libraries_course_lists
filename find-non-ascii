@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-ggrep --color='auto' -P -n "[\x80-\xFF]" data/*.csv
