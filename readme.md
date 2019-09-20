@@ -1,6 +1,6 @@
 # Course Lists
 
-Scripts to process course information exported from Informer reports into CSVs and text files, which are then uploaded into VAULT as EQUELLA taxonomies.
+Scripts to process course information into sets of departmental CSVs, which are then uploaded into VAULT as openEQUELLA taxonomies.
 
 ## Requirements
 
@@ -28,19 +28,15 @@ Once you have the course data—expected to be named "\_informer.csv" and in the
 > # upload everything to VAULT, takes a while
 > # stderr shows the "missing" taxonomies we don't need or haven't created yet
 > ./upload-taxos-to-vault.fish data/_informer.csv
-> # generate LDAP group listings, only the first 1 or 2 runs per semester
-> python faculty-ldap-groups.py data/_informer.csv
+> # archive data files in the "complete" directory
+> ./move-to-complete.fish
 ```
 
 ## Files Generated
 
-**CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the EQUELLA taxonomy upload script necessitates.
-
-Faculty LDAP group text files are also placed in the "data" directory.
+**CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the openEQUELLA taxonomy upload script necessitates.
 
 **Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt`, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the syllabus and architecture scripts each have their own logs.
-
-When you're finished with an update, move all the generated data to an archive location with `./move-to-complete.fish` which moves everything in the "data" directory into a directory under "complete" named after the current date.
 
 ## LICENSE
 
