@@ -2,5 +2,6 @@
 data/*.csv
 data/*.txt
 complete/**/
-logs/*.txt
+logs/*
+!logs/.gitkeep
 .equellarc
