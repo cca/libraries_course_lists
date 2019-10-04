@@ -11,7 +11,8 @@ set filename $argv[1]
 
 # list out all department codes from the report
 # trimming header row, might require Gnu (& not OS X) version of `tail`
-set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq)
+# skip MAAD courses
+set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | sed -e '/MAAD/d')
 
 for dept in $depts
     # slice rows from deparment into own CSV

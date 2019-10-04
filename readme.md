@@ -27,9 +27,7 @@ Once you have the course data—expected to be named "\_informer.csv" and in the
 > ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2016'
 > # upload everything to VAULT, takes a while
 > # stderr shows the "missing" taxonomies we don't need or haven't created yet
-> ./upload-taxos-to-vault.fish data/_informer.csv
-> # archive data files in the "complete" directory
-> ./move-to-complete.fish
+> ./upload-taxos-to-vault.fish data/_informer.csv # files are archived in /complete/$date afterwards
 ```
 
 ## Files Generated

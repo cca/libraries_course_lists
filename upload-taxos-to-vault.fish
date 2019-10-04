@@ -16,7 +16,13 @@ set un (jq -r '.username' ~/.equellarc)
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # remove Architecture Division (handled separately) plus Fine Arts critiques
-    sed -e '/ARCHT/d' -e '/BARCH/d' -e '/INTER/d' -e '/MARCH/d' -e '/FNART/d' -e '/CRITI/d')
+    sed -e '/ARCHT/d' \
+        -e '/BARCH/d' \
+        -e '/INTER/d' \
+        -e '/MAAD/d' \
+        -e '/MARCH/d' \
+        -e '/FNART/d' \
+        -e '/CRITI/d')
 
 for dept in $depts
     # full course list in EQUELLA taxonomy format
@@ -83,3 +89,8 @@ echo 'Updating Syllabus Collection...' > /dev/stderr
 # dir and we don't need to pass $filename to the script
 echo 'Updating Architecture Division...' > /dev/stderr
 ./arch-division.fish
+
+# move all files in "data" dir to "complete/${date}" where date is today's date
+set today (date "+%Y-%m-%d")
+mkdir -p "complete/$today"
+mv data/* "complete/$today/"

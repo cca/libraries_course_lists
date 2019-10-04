@@ -26,8 +26,6 @@ and echo "Wrote $dept department codes CSV…"
 # main course list
 set tax "$dept - COURSE LIST"
 set uuid (eq tax --name $tax | jq -r '.uuid')
-# @TODO should a script delete current semester prior?
-# place to do it would be in "delete-all-of-a-semester.fish" script
 if [ $uuid ]
     log "Updating $tax taxonomy" $logfile
     uptaxo --tid $uuid --pw $pw --un $un \
