@@ -8,18 +8,20 @@
 
 # load log function
 source log.fish
+set -x LOGFILE logs/(date "+%Y-%m-%d")-architecture.txt
 
 set depts 'ARCHT' 'BARCH' 'INTER' 'MARCH'
 set div 'ARCH DIV'
 set dir data
 set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
-set logfile logs/(date "+%Y-%m-%d")-architecture.txt
 
 # combine departmental CSVs into division-level ones
 # wipe out any previous division-level taxos, lets the script be run multiple times
-log 'deleting any previous taxonomy files' $logfile
-rm $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv $dir/$div-courses.csv  $dir/$div-faculty-names.csv $dir/$div-section-names.csv 2>/dev/null
+log 'deleting any previous taxonomy files'
+rm $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv \
+    $dir/$div-courses.csv  $dir/$div-faculty-names.csv \
+    $dir/$div-section-names.csv 2>/dev/null
 
 # concatenate program data to make division-level taxos,
 # silencing stderr because one of ARCHT/BARCH will always be missing
@@ -38,52 +40,52 @@ end
 set tax "$div - COURSE LIST"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-course-list-taxo.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-course-list-taxo.csv)
 end
 
 # course titles
 set tax "$div - course titles"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-course-titles.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-course-titles.csv)
 end
 
 # faculty names
 set tax "$div - faculty"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-faculty-names.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-faculty-names.csv)
 end
 
 # course names e.g. ARCHT-101
 set tax "$div - course names"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-courses.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-courses.csv)
 end
 
 # course sections
 set tax "$div - course sections"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-section-names.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-section-names.csv)
 end
 
 # XList IDs
 set tax "$div - cross-list keys"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
-    uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-xlist.csv >> $logfile
+    log "Updating $tax taxonomy"
+    log (uptaxo --tid $uuid --pw $pw --un $un \
+        --csv $dir/$div-xlist.csv)
 end

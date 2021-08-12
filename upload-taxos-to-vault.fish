@@ -1,14 +1,12 @@
 #!/usr/bin/env fish
 # usage:
 #   ./upload-taxos-to-vault.fish data/_informer.csv
-# where "informer.csv" is the full semester Informer report
+# where "informer.csv" is the full semester of course information
 
-# load log function
 source log.fish
 
 set filename $argv[1]
 set dir 'data'
-set logfile logs/(date '+%Y-%m-%d').txt
 set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
 
@@ -18,11 +16,11 @@ set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # remove Architecture Division (handled separately) plus Fine Arts critiques
     sed -e '/ARCHT/d' \
         -e '/BARCH/d' \
+        -e '/CRITI/d' \
+        -e '/FNART/d' \
         -e '/INTER/d' \
         -e '/MAAD/d' \
-        -e '/MARCH/d' \
-        -e '/FNART/d' \
-        -e '/CRITI/d')
+        -e '/MARCH/d')
 
 for dept in $depts
     # full course list in EQUELLA taxonomy format
@@ -30,8 +28,8 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-course-list-taxo.csv >> $logfile
+        log (uptaxo--tid $uuid --pw $pw --un $un \
+            --csv $dir/$dept-course-list-taxo.csv)
     end
 
     # course titles e.g. "Introduction to Printmaking"
@@ -39,8 +37,8 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-course-titles.csv >> $logfile
+        log (uptaxo--tid $uuid --pw $pw --un $un \
+            --csv $dir/$dept-course-titles.csv)
     end
 
     # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
@@ -48,8 +46,8 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-faculty-names.csv >> $logfile
+        log (uptaxo--tid $uuid --pw $pw --un $un \
+            --csv $dir/$dept-faculty-names.csv)
     end
 
     # course names e.g. INDIV-101
@@ -57,8 +55,8 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-courses.csv >> $logfile
+        log (uptaxo--tid $uuid --pw $pw --un $un \
+            --csv $dir/$dept-courses.csv)
     end
 
     # course sections e.g. INDIV-101-01
@@ -66,8 +64,8 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-section-names.csv >> $logfile
+        log (uptaxo--tid $uuid --pw $pw --un $un \
+            --csv $dir/$dept-section-names.csv)
     end
 end
 
@@ -76,21 +74,20 @@ end
 set dept ENGAGE
 set tax "$dept - COURSE LIST"
 set uuid (eq tax --name $tax | jq -r '.uuid')
-log "Updating $tax taxonomy" $logfile
-uptaxo --tid $uuid --pw $pw --un $un \
-    --csv $dir/$dept-course-list-taxo.csv >> $logfile
+log "Updating $tax taxonomy"
+log (uptaxo--tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
 
 # kick off the other, more complicated exceptions:
 # Syllabus Collection, Architecture Division
-echo 'Updating Syllabus Collection...' > /dev/stderr
+log 'Updating Syllabus Collection...'
 ./syllabus-collection.fish $filename
 # since Architecture programs' individual taxonomies have
 # already been created, the necessary files are in the "data"
 # dir and we don't need to pass $filename to the script
-echo 'Updating Architecture Division...' > /dev/stderr
+log 'Updating Architecture Division...'
 ./arch-division.fish
 
-# move all files in "data" dir to "complete/${date}" where date is today's date
+# move files from "data" dir to "complete/${date}" where date is today's date
 set today (date "+%Y-%m-%d")
 mkdir -p "complete/$today"
 mv data/* "complete/$today/"

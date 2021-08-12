@@ -4,18 +4,18 @@
 # so instead we delete them all & then re-upload a new set of courses
 #
 # usage:
-#   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2015'
+#   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2021'
 
 # load log function
 source log.fish
 
-set logfile logs/(date '+%Y-%m-%d').txt
 set filename $argv[1]
 set semester $argv[2]
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # delete the special snowflakes
-    sed -e '/ARCHT/d' -e '/BARCH/d' -e '/INTER/d' -e '/MARCH/d' -e '/CRITI/d' -e '/FNART/d')
-# manually add the exceptions: ENGAGE, ARCH DIV, & SYLLABUS
+    sed -e '/ARCHT/d' -e '/BARCH/d' -e '/CRITI/d' -e '/FNART/d' -e '/INTER/d' \
+    -e '/MARCH/d' )
+# manually add the exceptions: ENGAGE, Architecture Division, & Syllabus Coll
 set depts $depts ENGAGE 'ARCH DIV' SYLLABUS
 
 for dept in $depts
@@ -33,7 +33,7 @@ for dept in $depts
                 if [ (eq tax $term | jq -r '.term') = $semester ]
                     # DELETE returns "undefined" on success so we silence that
                     eq --method del tax $term > /dev/null
-                    and log "deleted $semester from $dept - COURSE LIST" $logfile
+                    and log "deleted $semester from $dept - COURSE LIST"
                 end
             end
         end

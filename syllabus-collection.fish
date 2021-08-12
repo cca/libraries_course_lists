@@ -3,15 +3,14 @@
 # usage:
 #   ./syllabus-collection.fish data/_informer.csv
 
-# load log function
 source log.fish
+set -x LOGFILE logs/(date "+%Y-%m-%d")-syllabus.txt
 
 set dept SYLLABUS
 set dir data
 set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
 set filename $argv[1]
-set logfile logs/(date "+%Y-%m-%d")-syllabus.txt
 
 # create CSVs for all taxonomies
 ./get-columns.fish SYLLABUS $filename
@@ -27,61 +26,61 @@ and echo "Wrote $dept department codes CSV…"
 set tax "$dept - COURSE LIST"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-course-list-taxo.csv >> $logfile
+        --csv $dir/$dept-course-list-taxo.csv)
 end
 
 # course titles e.g. "Introduction to Painting"
 set tax "$dept - course titles"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-course-titles.csv >> $logfile
+        --csv $dir/$dept-course-titles.csv)
 end
 
 # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
 set tax "$dept - faculty"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-faculty-names.csv >> $logfile
+        --csv $dir/$dept-faculty-names.csv)
 end
 
 # course names e.g. INDIV-101
 set tax "$dept - course names"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-courses.csv >> $logfile
+        --csv $dir/$dept-courses.csv)
 end
 
 # course sections e.g. ANIMA-101-01
 set tax "$dept - course sections"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-section-names.csv >> $logfile
+        --csv $dir/$dept-section-names.csv)
 end
 
 # Xlist IDs
 set tax "$dept - cross-list keys (XList)"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-xlist.csv >> $logfile
+        --csv $dir/$dept-xlist.csv)
 end
 
 # deptartment codes e.g. ANIMA
 set tax "$dept - dept codes"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
-    log "Updating $tax taxonomy" $logfile
+    log "Updating $tax taxonomy"
     uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$dept-dept-codes.csv >> $logfile
+        --csv $dir/$dept-dept-codes.csv)
 end
