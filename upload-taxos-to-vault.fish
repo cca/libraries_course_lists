@@ -28,7 +28,7 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        log (uptaxo--tid $uuid --pw $pw --un $un \
+        log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-list-taxo.csv)
     end
 
@@ -37,7 +37,7 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        log (uptaxo--tid $uuid --pw $pw --un $un \
+        log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-titles.csv)
     end
 
@@ -46,7 +46,7 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        log (uptaxo--tid $uuid --pw $pw --un $un \
+        log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-faculty-names.csv)
     end
 
@@ -55,7 +55,7 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        log (uptaxo--tid $uuid --pw $pw --un $un \
+        log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-courses.csv)
     end
 
@@ -64,7 +64,7 @@ for dept in $depts
     set uuid (eq tax --name $tax | jq -r '.uuid')
     if [ $uuid ]
         log "Updating $tax taxonomy" $logfile
-        log (uptaxo--tid $uuid --pw $pw --un $un \
+        log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-section-names.csv)
     end
 end
@@ -75,7 +75,7 @@ set dept ENGAGE
 set tax "$dept - COURSE LIST"
 set uuid (eq tax --name $tax | jq -r '.uuid')
 log "Updating $tax taxonomy"
-log (uptaxo--tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
+log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
 
 # kick off the other, more complicated exceptions:
 # Syllabus Collection, Architecture Division
