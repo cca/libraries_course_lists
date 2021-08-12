@@ -30,9 +30,9 @@ if test -e data/CRITI.csv -a -e data/INTDS.csv
     for t in $types
         cat data/CRITI-$t.csv data/INTDS-$t.csv > tmp
         mv tmp data/INTDS-$t.csv
-        rm data/CRITI-$t.csv
+        rm -v data/CRITI-$t.csv
     end
-    rm data/CRITI.csv
+    rm -v data/CRITI.csv
 end
 
 # ENGAGE courses could be under any department, handle as a special case
