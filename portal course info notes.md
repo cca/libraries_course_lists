@@ -8,6 +8,7 @@ The department codes in Portal differ from Informer:
 - Interdisciplinary Studio is UDIST and not INTDS, which our course list scripts in turn have special logic to store under CRITI
 - Literary & Performing Arts is LITPA, separated out from under WRLIT
 - Philosophy & Critical Theory (PHCRT), Science/Math (SCIMA), & Social Science History (SSHIS) have all been broken out into independent departments from under CRTST
+- Changed department codes tend to update the "subject" code in Workday data but not the Academic Unit. As a consequence, HAAVC courses still have a dept code of "VISST" and the split ETHSM/ETHST (Critical Ethnic Studies) courses have a dept code of DIVST
 
 # Workday course data
 
