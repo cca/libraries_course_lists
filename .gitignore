@@ -5,3 +5,5 @@ complete/**/
 logs/*
 !logs/.gitkeep
 .equellarc
+.tmp.*
+
