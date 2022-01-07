@@ -21,7 +21,7 @@ and echo "Wrote $dept courses CSV…"
 
 # first sort file (first column is semester), then process
 # --no-inference REQUIRED b/c otherwise it translates "MARCH" to "9999-03-31"
-csvsort --no-inference $filename | tail -n +2 > tmp; mv tmp $filename
+csvsort --no-inference --no-header-row $filename | tail -n +2 > tmp; mv tmp $filename
 if [ $dept = 'ARCHT' -o $dept = 'BARCH' -o $dept = 'INTER' -o $dept = 'MARCH' -o $dept = 'SYLLABUS' ]
     ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
 else
