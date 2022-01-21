@@ -3,6 +3,7 @@ The department codes in Portal differ from Informer:
 - Critical Studies is CRTSD and not CRTST
 - Design Strategy is DSMBA and not DESST
 - Diversity Studies is either DIVSM (Seminar) or DIVST (Studio) and not DIVRS
+- Film BFA is FILMU and not FILMS
 - Grad Wide Electives are GELCT and not under their respective departments
     + It is _almost_ true that all GELCT courses are cross-listed. There are 15 total sections that match the query `course_name LIKE 'GELCT%' AND csxl IS NULL` and of those 12 were cancelled. But the 3 that remain are genuine GELCT courses, "Outlaws: Art vs Ethics & Law" and "Art Practical: Prof of Wrtng". They date back to 2017SP and I can see that VAULT classified "Outlaws" under CURPR and "Art Practical" under VISCR.
 - Interdisciplinary Studio is UDIST and not INTDS, which our course list scripts in turn have special logic to store under CRITI
