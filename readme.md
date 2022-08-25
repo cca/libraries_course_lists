@@ -6,6 +6,8 @@ Scripts to process course information into sets of departmental CSVs, which are 
 
 First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2021FA` where 2021FA is the current semester's short code.
 
+**Note:** if you're off campus, connect to the VPN before running these scripts, they will run much quicker.
+
 Once you have the course data—expected to be named "\_informer.csv" and in the "data" directory—run the scripts in this order:
 
 ```sh
@@ -21,7 +23,7 @@ Once you have the course data—expected to be named "\_informer.csv" and in the
 
 ## Requirements
 
-There's a lot, actually. The `brew` commands below refer to [Homebrew](http://brew.sh).
+The setup.sh script should get us most of the way there.
 
 - Node & NPM (needed for `eq`), `brew install node`
 - Python 2.7 (see section below)

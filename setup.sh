@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 exists () {
-    command -v "$1" &>/dev/null
+    command -v "$1" 2&>/dev/null
 }
 
 # https://brew.sh/
