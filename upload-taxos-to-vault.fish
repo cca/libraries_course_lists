@@ -6,9 +6,17 @@
 source log.fish
 
 set filename $argv[1]
-set dir 'data'
+set taxo_file data/taxonomies.json
+set dir data
 set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
+
+# cache taxonomy list in data file
+if [ ! -e $taxo_file ]
+    log "Downloading taxonomy list to $taxo_file"
+    # make sure to get all of them with the length param
+    eq tax --path '?length=5000' >$taxo_file
+end
 
 # parse all department codes listed in the report
 # trim header row with tail -n +2 (might need gnu tail not OS X?)
@@ -25,45 +33,45 @@ set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
 for dept in $depts
     # full course list in EQUELLA taxonomy format
     set tax "$dept - COURSE LIST"
-    set uuid (eq tax --name $tax | jq -r '.uuid')
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ $uuid ]
-        log "Updating $tax taxonomy" $logfile
+        log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-list-taxo.csv)
     end
 
     # course titles e.g. "Introduction to Printmaking"
     set tax "$dept - course titles"
-    set uuid (eq tax --name $tax | jq -r '.uuid')
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ $uuid ]
-        log "Updating $tax taxonomy" $logfile
+        log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-titles.csv)
     end
 
     # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
     set tax "$dept - faculty"
-    set uuid (eq tax --name $tax | jq -r '.uuid')
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ $uuid ]
-        log "Updating $tax taxonomy" $logfile
+        log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-faculty-names.csv)
     end
 
     # course names e.g. INDIV-101
     set tax "$dept - course names"
-    set uuid (eq tax --name $tax | jq -r '.uuid')
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ $uuid ]
-        log "Updating $tax taxonomy" $logfile
+        log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-courses.csv)
     end
 
     # course sections e.g. INDIV-101-01
     set tax "$dept - course sections"
-    set uuid (eq tax --name $tax | jq -r '.uuid')
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ $uuid ]
-        log "Updating $tax taxonomy" $logfile
+        log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-section-names.csv)
     end
@@ -73,7 +81,7 @@ end
 # but it's not listed in the informer CSV's department column
 set dept ENGAGE
 set tax "$dept - COURSE LIST"
-set uuid (eq tax --name $tax | jq -r '.uuid')
+set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 log "Updating $tax taxonomy"
 log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
 
