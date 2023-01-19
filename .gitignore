@@ -1,9 +1,9 @@
 *.pyc
 data/*.csv
+data/*.json
 data/*.txt
 complete/**/
 logs/*
 !logs/.gitkeep
 .equellarc
 .tmp.*
-
