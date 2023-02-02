@@ -12,7 +12,7 @@ set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
 
 # cache taxonomy list in data file
-if [ ! -e $taxo_file ]
+if [ ! -e "$taxo_file" ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
@@ -34,7 +34,7 @@ for dept in $depts
     # full course list in EQUELLA taxonomy format
     set tax "$dept - COURSE LIST"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ $uuid ]
+    if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-list-taxo.csv)
@@ -43,7 +43,7 @@ for dept in $depts
     # course titles e.g. "Introduction to Printmaking"
     set tax "$dept - course titles"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ $uuid ]
+    if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-titles.csv)
@@ -52,7 +52,7 @@ for dept in $depts
     # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
     set tax "$dept - faculty"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ $uuid ]
+    if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-faculty-names.csv)
@@ -61,7 +61,7 @@ for dept in $depts
     # course names e.g. INDIV-101
     set tax "$dept - course names"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ $uuid ]
+    if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-courses.csv)
@@ -70,7 +70,7 @@ for dept in $depts
     # course sections e.g. INDIV-101-01
     set tax "$dept - course sections"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ $uuid ]
+    if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-section-names.csv)
