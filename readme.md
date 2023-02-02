@@ -4,9 +4,7 @@ Scripts to process course information into sets of departmental CSVs, which are 
 
 ## Usage
 
-First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2021FA` where 2021FA is the current semester's short code.
-
-**Note:** if you're off campus, connect to the VPN before running these scripts, they will run much quicker.
+First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2023FA` where 2023FA is the current semester's short code.
 
 Once you have the course data—expected to be named "\_informer.csv" and in the "data" directory—run the scripts in this order:
 
@@ -14,9 +12,8 @@ Once you have the course data—expected to be named "\_informer.csv" and in the
 > # create ALL the CSVs
 > ./make-all-taxo-csvs.fish data/_informer.csv
 > # delete the last semester's taxonomy terms, only run if not the initial upload
-> ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2021'
+> ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2023'
 > # upload everything to VAULT, takes a while
-> # stderr shows the "missing" taxonomies we don't need or haven't created yet
 > ./upload-taxos-to-vault.fish data/_informer.csv
 > # files are archived in the /complete/$date directory afterwards
 ```
