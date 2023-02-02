@@ -79,11 +79,12 @@ end
 
 # ENGAGE is an exception which we handle as its own department
 # but it's not listed in the informer CSV's department column
-set dept ENGAGE
-set tax "$dept - COURSE LIST"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-log "Updating $tax taxonomy"
-log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
+# @TODO we have not had an ENGAGE course since 2020, is this convention still used?
+# set dept ENGAGE
+# set tax "$dept - COURSE LIST"
+# set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+# log "Updating $tax taxonomy"
+# log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
 
 # kick off the other, more complicated exceptions:
 # Syllabus Collection, Architecture Division
