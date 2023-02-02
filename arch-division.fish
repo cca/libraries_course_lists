@@ -9,7 +9,7 @@
 # load log function
 source log.fish
 set -x LOGFILE logs/(date "+%Y-%m-%d")-architecture.txt
-
+set taxo_file data/taxonomies.json
 set depts ARCHT BARCH INTER MARCH
 set div 'ARCH DIV'
 set dir data
@@ -17,7 +17,7 @@ set pw (jq -r '.password' ~/.equellarc)
 set un (jq -r '.username' ~/.equellarc)
 set taxo_file data/taxonomies.json
 
-if [ ! -e $taxo_file ]
+if [ ! -e "$taxo_file" ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
@@ -46,7 +46,7 @@ end
 # main course list
 set tax "$div - COURSE LIST"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-list-taxo.csv)
@@ -55,7 +55,7 @@ end
 # course titles
 set tax "$div - course titles"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-titles.csv)
@@ -64,7 +64,7 @@ end
 # faculty names
 set tax "$div - faculty"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-faculty-names.csv)
@@ -73,7 +73,7 @@ end
 # course names e.g. ARCHT-101
 set tax "$div - course names"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-courses.csv)
@@ -82,7 +82,7 @@ end
 # course sections
 set tax "$div - course sections"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-section-names.csv)
@@ -91,7 +91,7 @@ end
 # XList IDs
 set tax "$div - cross-list keys"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ $uuid ]
+if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-xlist.csv)
