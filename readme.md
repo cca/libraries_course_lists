@@ -6,7 +6,7 @@ Scripts to process course information into sets of departmental CSVs, which are 
 
 First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2023FA` where 2023FA is the current semester's short code.
 
-Once you have the course data—expected to be named "\_informer.csv" and in the "data" directory—run the scripts in this order:
+Once you have the course data—expected to be named "_informer.csv" and in the "data" directory—run the scripts in this order:
 
 ```sh
 > # create ALL the CSVs
