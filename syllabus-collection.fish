@@ -8,10 +8,19 @@ set -x LOGFILE logs/(date "+%Y-%m-%d")-syllabus.txt
 
 set dept SYLLABUS
 set dir data
-set pw (jq -r '.password' ~/.equellarc)
-set un (jq -r '.username' ~/.equellarc)
 set filename $argv[1]
 set taxo_file data/taxonomies.json
+
+set un (jq -r '.username' ~/.equellarc)
+set pw (op item get "VAULT ($un)" --fields password || jq -r '.password' ~/.equellarc)
+
+if [ $un = "" ]
+    echo "Error: requires a username property in ~/.equellarc"
+    exit 1
+else if [ -z $pw ]; or [ $pw = null ]
+    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in ~/.equellarc"
+    exit 1
+end
 
 if [ ! -e $taxo_file ]
     log "Downloading taxonomy list to $taxo_file"
