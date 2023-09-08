@@ -96,13 +96,14 @@ end
 
 # kick off the other, more complicated exceptions:
 # Syllabus Collection, Architecture Division
+# we provide the password to these so we don't have to reauthenticate
 log 'Updating Syllabus Collection...'
-./syllabus-collection.fish $filename
+./syllabus-collection.fish $filename $pw
 # since Architecture programs' individual taxonomies have
 # already been created, the necessary files are in the "data"
 # dir and we don't need to pass $filename to the script
 log 'Updating Architecture Division...'
-./arch-division.fish
+./arch-division.fish $pw
 
 # move files from "data" dir to "complete/${date}" where date is today's date
 set today (date "+%Y-%m-%d")

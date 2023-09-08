@@ -12,7 +12,10 @@ set filename $argv[1]
 set taxo_file data/taxonomies.json
 
 set un (jq -r '.username' ~/.equellarc)
-set pw (op item get "VAULT ($un)" --fields password || jq -r '.password' ~/.equellarc)
+set pw $argv[2]
+if [ -z $pw ]
+    set pw (op item get "VAULT ($un)" --fields password || jq -r '.password' ~/.equellarc)
+end
 
 if [ $un = "" ]
     echo "Error: requires a username property in ~/.equellarc"
