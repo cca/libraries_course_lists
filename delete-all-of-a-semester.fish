@@ -13,11 +13,11 @@ set filename $argv[1]
 set taxo_file data/taxonomies.json
 set semester $argv[2]
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
-    # delete the special snowflakes
+    # delete special snowflakes
     sed -e '/ARCHT/d' -e '/BARCH/d' -e '/CRITI/d' -e '/FNART/d' -e '/INTER/d' \
-    -e '/MARCH/d' )
-# manually add the exceptions: ENGAGE, Architecture Division, & Syllabus Coll
-set depts $depts ENGAGE 'ARCH DIV' SYLLABUS
+    -e '/MARCH/d' -e '/MAAD/d' )
+# manually add exceptions: Architecture Division, & Syllabus Coll (formerly ENGAGE, too)
+set depts $depts 'ARCH DIV' SYLLABUS
 
 # cache taxonomy list in data file
 if [ ! -e "$taxo_file" ]
