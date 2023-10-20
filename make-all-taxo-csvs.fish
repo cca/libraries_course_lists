@@ -7,6 +7,11 @@
 
 set filename $argv[1]
 
+if [ ! -f "$filename" ]
+    echo "Error: first argument must be path to a courses CSV file" >&2
+    exit 1
+end
+
 source log.fish
 
 # list out all department codes from the report

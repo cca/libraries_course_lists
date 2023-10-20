@@ -6,18 +6,25 @@
 source log.fish
 
 set filename $argv[1]
-set taxo_file data/taxonomies.json
-set dir data
+
+if [ ! -f "$filename" ]
+    echo "Error: first argument must be path to a courses CSV file" >&2
+    exit 1
+end
+
 set un (jq -r '.username' ~/.equellarc)
 set pw (op item get "VAULT ($un)" --fields password || jq -r '.password' ~/.equellarc)
 
 if [ $un = "" ]
-    echo "Error: requires a username property in ~/.equellarc"
+    echo "Error: requires a username property in ~/.equellarc" >&2
     exit 1
-else if [ -z $pw ]; or [ $pw = "null" ]
-    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in ~/.equellarc"
+else if [ -z $pw ]; or [ $pw = null ]
+    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in ~/.equellarc" >&2
     exit 1
 end
+
+set taxo_file data/taxonomies.json
+set dir data
 
 # cache taxonomy list in data file
 if [ ! -e "$taxo_file" ]
@@ -107,5 +114,7 @@ log 'Updating Architecture Division...'
 
 # move files from "data" dir to "complete/${date}" where date is today's date
 set today (date "+%Y-%m-%d")
-mkdir -p "complete/$today"
+set compdir "complete/$today"
+echo "Moving files to $compdir"
+mkdir -p $compdir
 mv data/* "complete/$today/"
