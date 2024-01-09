@@ -117,4 +117,4 @@ set today (date "+%Y-%m-%d")
 set compdir "complete/$today"
 echo "Moving files to $compdir"
 mkdir -p $compdir
-mv data/* "complete/$today/"
+mv data/* $compdir

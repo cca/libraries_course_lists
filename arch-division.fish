@@ -37,7 +37,7 @@ end
 
 # combine departmental CSVs into division-level ones
 # wipe out any previous division-level taxos, lets the script be run multiple times
-log 'deleting any previous taxonomy files'
+log 'Deleting any previous taxonomy files'
 rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv \
     $dir/$div-courses.csv $dir/$div-faculty-names.csv \
     $dir/$div-section-names.csv 2>/dev/null
