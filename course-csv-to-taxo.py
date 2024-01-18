@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import argparse
-import webbrowser
 import csv
 
 
-def convert_semester(str):
+def convert_semester(str) -> str:
     """
     Convert the abbreviated semester form "2015fa" from an Informer report
     into a more readable, human-friendly form "2015 Fall"
@@ -22,12 +21,7 @@ def convert_semester(str):
         raise Exception("invalid semester season string %s" % season)
 
 
-def main(args):
-    if args.open_report:
-        return webbrowser.open(
-            "https://vm-informer-01.cca.edu/informer/?locale=en_US#action=ReportRun&reportId=25428063&launch=false"
-        )
-
+def main(args) -> None:
     # the columns in the department-specific Informer CSV, in order
     columns = [
         "semester",
@@ -63,12 +57,6 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file", nargs="?", help="CSV of the Informer report")
-    parser.add_argument(
-        "-o",
-        "--open-report",
-        help="open the appropriate Informer report",
-        action="store_true",
-    )
     parser.add_argument(
         "-p",
         "--program",
