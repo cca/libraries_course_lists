@@ -6,10 +6,13 @@ exists () {
 
 # https://brew.sh/
 exists brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-exists node || brew install node
+exists asdf || brew install asdf
+asdf list nodejs 2&>/dev/null || asdf plugin add nodejs
+asdf list python 2&>/dev/null || asdf plugin add python
+asdf install
+
 exists fish || brew install fish
 exists jq || brew install jq
-exists python3 || brew install python3
 # csvkit doesn't install a utility named csvkit, pick a random one to test
 exists csvjoin || brew install csvkit
 
@@ -30,4 +33,4 @@ if ! test -e ~/bin/util.py; then
     wget -O ~/bin/util.py https://raw.githubusercontent.com/openequella/openequella.github.io/master/example-scripts/SOAP/python/util.py
 fi
 
-exists python2 || echo "You must install Python 2.7 yourself: https://www.python.org/downloads/"
+exists python2 || echo "You might need to install Python 2.7 yourself: https://www.python.org/downloads/"

@@ -22,8 +22,8 @@ Once you have the course data—expected to be named "_informer.csv" and in the 
 
 The setup.sh script should get us most of the way there.
 
-- Node & NPM (needed for `eq`), `brew install node`
-- Python 2.7 (see section below)
+- `asdf` with `nodejs` and `python` plugins installed
+- Node, npm, python 2.7, and python 3, `asdf install`
 - Python's csv kit tools, `pip install csvkit` (they can be in a Python 3 environment)
 - Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
 - `jq` command-line JSON processor, `brew install jq`
@@ -38,7 +38,9 @@ The setup.sh script should get us most of the way there.
 
 ## Using Python 2.7
 
-The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and probably will never be updated to Python 3. Python 2 no longer ships with MacOS and is not in homebrew. We can still install a 2.7.x version from the Python website's [Downloads](https://www.python.org/downloads/) page, however.
+Python 2.7 should install OK from `asdf`, but if not here are some notes.
+
+The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and will probably never be updated to Python 3. We can install a 2.7.x version from the Python website's [Downloads](https://www.python.org/downloads/) page.
 
 If we try to run the project without addressing SSL certs, we'll run into an error:
 
