@@ -38,29 +38,15 @@ The setup.sh script should get us most of the way there.
 
 ## Using Python 2.7
 
-Python 2.7 should install OK from `asdf`, but if not here are some notes.
-
-The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and will probably never be updated to Python 3. We can install a 2.7.x version from the Python website's [Downloads](https://www.python.org/downloads/) page.
-
-If we try to run the project without addressing SSL certs, we'll run into an error:
+The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and will probably never be updated to Python 3. TLDR;
 
 ```sh
-Traceback (most recent call last):
-  File "/Users/ephetteplace/bin/uptaxo", line 132, in <module>
-    equella = equellasoap.EquellaSoap(institutionUrl, username, password, proxyUrl)
-  File "/Users/ephetteplace/bin/equellasoap.py", line 54, in __init__
-    self.login(username, password)
-  File "/Users/ephetteplace/bin/equellasoap.py", line 126, in login
-    ('password', STRING, password),
-  File "/Users/ephetteplace/bin/equellasoap.py", line 89, in _call
-    raise Exception, errMsg
-Exception: Connection error:
-*******************
- [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:727)
-*******************
+brew install openssl@1.1
+asdf install python 2.7.18
+asdf local python 2.7.18 3.10.13
 ```
 
-There is an "Install Certificates.command" script included under /Applications/Python2.7 but it does not work. I resolved the SSL verification error by linking my system certs into one of the path's where Python's `ssl` library is looking: `ln -s /etc/ssl/cert.pem /Library/Frameworks/Python.framework/Versions/2.7/etc/openssl/`. There may be a better solution—there are Stack Overflow posts that talk about modifying the `urllib` calls to avoid verification in the code, which seems much worse—but this one worked.
+Python 2.7 should install OK from `asdf`. I've found that openssl@1.1 is necessary, 1.0.2 will throw errors.
 
 ## LICENSE
 

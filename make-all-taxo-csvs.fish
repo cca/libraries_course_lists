@@ -41,7 +41,7 @@ if test -e data/CRITI.csv -a -e data/INTDS.csv
 end
 
 # ENGAGE courses could be under any department, handle as a special case
-# @TODO we have not had an ENGAGE course since 2020, is this convention still used?
+# TODO we have not had an ENGAGE course since 2020, is this convention still used?
 # log 'Creating ENGAGE course taxonomies'
 # set dept ENGAGE
 # csvgrep -c 3 -r 'Engage:' $filename | tail -n +2 >data/$dept.csv
