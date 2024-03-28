@@ -38,6 +38,7 @@ for dept in $depts
         set termID (eq tax "$taxoID/term" | jq -r ".[] | select(.term | contains(\"$semester\")) | .uuid")
 
         if [ -n "$termID" ]
+            eq --method del tax $taxoID/lock # unlock the taxonomy
             eq --method del tax $taxoID/term/$termID >/dev/null
             and log "deleted $semester from $dept - COURSE LIST"
         else
