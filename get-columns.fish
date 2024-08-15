@@ -20,7 +20,7 @@ log "Wrote $dept course titles, faculty, sections, and courses CSVs…"
 
 # first sort file (first column is semester), then process
 # --no-inference REQUIRED b/c otherwise it translates "MARCH" to "9999-03-31"
-csvsort --delimiter "," --no-inference $filename > tmp
+csvsort --snifflimit 0 --no-inference $filename > tmp
 mv tmp $filename
 if [ $dept = ARCHT -o $dept = BARCH -o $dept = INTER -o $dept = MARCH -o $dept = SYLLABUS ]
     ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
