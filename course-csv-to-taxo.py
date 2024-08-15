@@ -22,19 +22,10 @@ def convert_semester(str) -> str:
 
 
 def main(args) -> None:
-    # the columns in the department-specific Informer CSV, in order
-    columns = [
-        "semester",
-        "dept",
-        "title",
-        "faculty",
-        "section",
-        "course",
-        "xlist",
-        "usernames",
-    ]
+    # the columns in the department-specific Informer CSV, in order:
+    # semester, dept, title, faculty, section, course, colocated courses, faculty usernames
     with open(args.file, "r") as fh:
-        reader = csv.DictReader(fh, columns, delimiter=",")
+        reader = csv.DictReader(fh, delimiter=",")
         for row in reader:
             # skip Standby rows, don't want them in our taxonomies
             if not row["faculty"].lower() == "standby":
@@ -43,14 +34,14 @@ def main(args) -> None:
                 out = '"' + convert_semester(row["semester"]) + "\\"
                 # only add program if told to on the command line
                 if args.program:
-                    out += row["dept"] + "\\"
+                    out += row["department"] + "\\"
                 # see my normalize-course-titles project which slots right in here
                 out += "\\".join([row["title"], row["faculty"], row["section"]]) + '",'
                 # path is over, these are taxonomy data keys
                 # format is "key,value"
                 out += '"CrsName","%s",' % row["course"]
-                out += '"XList","%s",' % row["xlist"]
-                out += '"facultyID","%s",' % row["usernames"]
+                out += '"XList","%s",' % row["colocated courses"]
+                out += '"facultyID","%s",' % row["faculty usernames"]
                 print(out)
 
 

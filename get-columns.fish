@@ -12,19 +12,19 @@ source log.fish
 set dept $argv[1]
 set filename $argv[2]
 
-csvcut -c 3 $filename | tail -n +2 | sort | uniq >data/$dept-course-titles.csv
-csvcut -c 4 $filename | tail -n +2 | sort | uniq | gsed -E /Standby/Id >data/$dept-faculty-names.csv
-csvcut -c 5 $filename | tail -n +2 | sort | uniq >data/$dept-section-names.csv
-csvcut -c 6 $filename | tail -n +2 | sort | uniq >data/$dept-courses.csv
+csvcut -c 3 $filename | tail -n +2 | sort | uniq > data/$dept-course-titles.csv
+csvcut -c 4 $filename | tail -n +2 | sort | uniq | gsed -E /Standby/Id > data/$dept-faculty-names.csv
+csvcut -c 5 $filename | tail -n +2 | sort | uniq > data/$dept-section-names.csv
+csvcut -c 6 $filename | tail -n +2 | sort | uniq > data/$dept-courses.csv
 log "Wrote $dept course titles, faculty, sections, and courses CSVs…"
 
 # first sort file (first column is semester), then process
 # --no-inference REQUIRED b/c otherwise it translates "MARCH" to "9999-03-31"
-csvsort --delimiter "," --no-inference $filename | tail -n +2 >tmp
+csvsort --delimiter "," --no-inference $filename > tmp
 mv tmp $filename
 if [ $dept = ARCHT -o $dept = BARCH -o $dept = INTER -o $dept = MARCH -o $dept = SYLLABUS ]
-    ./course-csv-to-taxo.py --program $filename >data/$dept-course-list-taxo.csv
+    ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
 else
-    ./course-csv-to-taxo.py $filename >data/$dept-course-list-taxo.csv
+    ./course-csv-to-taxo.py $filename > data/$dept-course-list-taxo.csv
 end
 log "Created EQUELLA-ready '$dept - COURSE LIST' taxonomy CSV"
