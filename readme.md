@@ -42,11 +42,11 @@ The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github
 
 ```sh
 brew install openssl@1.1
-asdf install python 2.7.18
-asdf local python 2.7.18 3.10.13
+mise install python 2.7.18
+mise local python 2.7.18 3.12
 ```
 
-Python 2.7 should install OK from `asdf`. I've found that openssl@1.1 is necessary, 1.0.2 will throw errors.
+Python 2.7 should install OK from `mise`. I've found that openssl@1.1 is necessary, 1.0.2 will throw errors.
 
 ## LICENSE
 
