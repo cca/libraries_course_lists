@@ -4,7 +4,7 @@ Scripts to process course information into sets of departmental CSVs, which are 
 
 ## Usage
 
-First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `python make_informer_csv.py data/data.json 2023FA` where 2023FA is the current semester's short code.
+First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `pipenv run python make_informer_csv.py`.
 
 Once you have the course data—expected to be named "_informer.csv" and in the "data" directory—run the scripts in this order:
 
@@ -22,9 +22,9 @@ Once you have the course data—expected to be named "_informer.csv" and in the 
 
 The setup.sh script should get us most of the way there.
 
-- `asdf` with `nodejs` and `python` plugins installed
-- Node, npm, python 2.7, and python 3, `asdf install`
-- Python's csv kit tools, `pip install csvkit` (they can be in a Python 3 environment)
+- `mise` for python and node programming language version management
+- Node, python 2.7, and python 3, `mise install`
+- Python's csvkit tools, e.g. `uv tool install csvkit` or `pipx install csvkit` (they can be in a Python 3 environment)
 - Fish shell, `brew install fish` (the Fish scripts could be trivially converted to Bash)
 - `jq` command-line JSON processor, `brew install jq`
 - `eq`, the [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)

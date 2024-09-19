@@ -6,10 +6,8 @@ exists () {
 
 # https://brew.sh/
 exists brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-exists asdf || brew install asdf
-asdf list nodejs 2&>/dev/null || asdf plugin add nodejs
-asdf list python 2&>/dev/null || asdf plugin add python
-asdf install
+exists mise || brew install mise
+mise install
 
 exists fish || brew install fish
 exists jq || brew install jq
