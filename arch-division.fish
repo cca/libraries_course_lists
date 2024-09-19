@@ -18,7 +18,7 @@ set taxo_file data/taxonomies.json
 set un (jq -r '.username' ~/.equellarc)
 set pw $argv[1]
 if [ -z $pw ];
-    set pw (op item get "VAULT ($un)" --fields password || jq -r '.password' ~/.equellarc)
+    set pw (op item get "VAULT ($un)" --reveal --fields password || jq -r '.password' ~/.equellarc)
 end
 
 if [ $un = "" ]
