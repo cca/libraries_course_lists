@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 # usage:
-#   ./upload-taxos-to-vault.fish data/_informer.csv
+#   ./upload-taxos-to-vault.fish data/_informer.csv [--courses]
 # where "informer.csv" is the full semester of course information
 
 source log.fish
@@ -55,46 +55,48 @@ for dept in $depts
             --csv $dir/$dept-course-list-taxo.csv)
     end
 
-    # course titles e.g. "Introduction to Printmaking"
-    set tax "$dept - course titles"
-    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ -n "$uuid" ]
-        log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-course-titles.csv)
-    end
+    if not contains -- --courses $argv
+        # course titles e.g. "Introduction to Printmaking"
+        set tax "$dept - course titles"
+        set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+        if [ -n "$uuid" ]
+            log "Updating $tax taxonomy"
+            log (uptaxo --tid $uuid --pw $pw --un $un \
+                --csv $dir/$dept-course-titles.csv)
+        end
 
-    # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
-    set tax "$dept - faculty"
-    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ -n "$uuid" ]
-        log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-faculty-names.csv)
-    end
+        # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
+        set tax "$dept - faculty"
+        set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+        if [ -n "$uuid" ]
+            log "Updating $tax taxonomy"
+            log (uptaxo --tid $uuid --pw $pw --un $un \
+                --csv $dir/$dept-faculty-names.csv)
+        end
 
-    # course names e.g. INDIV-101
-    set tax "$dept - course names"
-    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ -n "$uuid" ]
-        log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-courses.csv)
-    end
+        # course names e.g. INDIV-101
+        set tax "$dept - course names"
+        set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+        if [ -n "$uuid" ]
+            log "Updating $tax taxonomy"
+            log (uptaxo --tid $uuid --pw $pw --un $un \
+                --csv $dir/$dept-courses.csv)
+        end
 
-    # course sections e.g. INDIV-101-01
-    set tax "$dept - course sections"
-    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-    if [ -n "$uuid" ]
-        log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-section-names.csv)
+        # course sections e.g. INDIV-101-01
+        set tax "$dept - course sections"
+        set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+        if [ -n "$uuid" ]
+            log "Updating $tax taxonomy"
+            log (uptaxo --tid $uuid --pw $pw --un $un \
+                --csv $dir/$dept-section-names.csv)
+        end
     end
 end
 
 # ENGAGE is an exception which we handle as its own department
 # but it's not listed in the informer CSV's department column
-# @TODO we have not had an ENGAGE course since 2020, is this convention still used?
+# TODO we have not had an ENGAGE course since 2020, is this convention still used?
 # set dept ENGAGE
 # set tax "$dept - COURSE LIST"
 # set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)

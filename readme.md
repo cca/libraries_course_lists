@@ -9,13 +9,15 @@ First, generate a course information CSV using our other project [cca/libraries_
 Once you have the course data—expected to be named "_informer.csv" and in the "data" directory—run the scripts in this order:
 
 ```sh
-> # create ALL the CSVs
-> ./make-all-taxo-csvs.fish data/_informer.csv
-> # delete the last semester's taxonomy terms, only run if not the initial upload
-> ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2023'
-> # upload everything to VAULT, takes a while
-> ./upload-taxos-to-vault.fish data/_informer.csv
-> # files are archived in the /complete/$date directory afterwards
+# create ALL the CSVs
+./make-all-taxo-csvs.fish data/_informer.csv
+# delete the last semester's taxonomy terms, only run if not the initial upload
+./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2023'
+# upload everything to VAULT, takes a while
+./upload-taxos-to-vault.fish data/_informer.csv
+# upload only the course list taxonomies to VAULT
+./upload-taxos-to-vault.fish data/_informer.csv --courses
+# files are archived in the /complete/$date directory afterwards
 ```
 
 ## Requirements
