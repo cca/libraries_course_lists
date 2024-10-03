@@ -1,0 +1,7 @@
+complete/
+data/
+logs/
+.gitignore
+LICENSE.txt
+*.md
+setup.sh

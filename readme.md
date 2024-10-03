@@ -20,6 +20,23 @@ Once you have the course data—expected to be named "_informer.csv" and in the 
 # files are archived in the /complete/$date directory afterwards
 ```
 
+## Docker image
+
+Try building and running a Docker image instead of worry about all [the requirements](#requirements) below.
+
+```sh
+# build image
+docker build -t courselists:latest .
+# run with PW environment variable
+docker run --rm -it -e PW=(op item get "VAULT ($un)" --reveal --fields password --reveal) courselists:latest /bin/bash
+```
+
+## Files Generated
+
+**CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the openEQUELLA taxonomy upload script necessitates.
+
+**Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt`, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the Syllabus and Architecture Division collections each have their own logs.
+
 ## Requirements
 
 The setup.sh script should get us most of the way there.
@@ -31,12 +48,6 @@ The setup.sh script should get us most of the way there.
 - `jq` command-line JSON processor, `brew install jq`
 - `eq`, the [equella-cli](https://github.com/cca/equella_cli) NPM module (`npm i -g equella-cli`) with administrator credentials in an ".equellarc" file located in your user's home directory (used within scripts in calls to `uptaxo`)
 - (included in this repo) the [`uptaxo` script](https://gist.github.com/phette23/9bec679b7b677af7e396e8a40e7a7047) which puts a light CLI around the EQUELLA taxonomy update script and its dependencies `equellasoap.py` and `util.py` from the [openEQUELLA docs repo](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python). These may need to be on your PATH, e.g. in a ~/bin directory
-
-## Files Generated
-
-**CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the openEQUELLA taxonomy upload script necessitates.
-
-**Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They're of form `YYYY-MM-DD-${TYPE}.txt`, where a lack of a type specifier means it's from the main "upload-taxos-to-vault" script while the Syllabus and Architecture Division collections each have their own logs.
 
 ## Using Python 2.7
 
