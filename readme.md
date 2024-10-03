@@ -22,7 +22,7 @@ Once you have the course data—expected to be named "_informer.csv" and in the 
 
 ## Docker image
 
-Try building and running a Docker image instead of worry about all [the requirements](#requirements) below.
+Try building and running a Docker image instead of worrying about all [the requirements](#requirements) below.
 
 ```sh
 # build image
