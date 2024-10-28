@@ -4,7 +4,7 @@ services:
       context: .
       tags:
       - "courselists:latest"
-    image: courseslists
+    image: courselists
     pull_policy: build
     volumes:
       - ./complete:/app/complete
