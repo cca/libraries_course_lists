@@ -31,6 +31,7 @@ if [ ! -e "$taxo_file" ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
+    sleep 5
 end
 
 # parse all department codes listed in the report
@@ -53,6 +54,7 @@ for dept in $depts
         log "Updating $tax taxonomy"
         log (uptaxo --tid $uuid --pw $pw --un $un \
             --csv $dir/$dept-course-list-taxo.csv)
+        sleep 5
     end
 
     if not contains -- --courses $argv
@@ -63,6 +65,7 @@ for dept in $depts
             log "Updating $tax taxonomy"
             log (uptaxo --tid $uuid --pw $pw --un $un \
                 --csv $dir/$dept-course-titles.csv)
+            sleep 5
         end
 
         # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
@@ -72,6 +75,7 @@ for dept in $depts
             log "Updating $tax taxonomy"
             log (uptaxo --tid $uuid --pw $pw --un $un \
                 --csv $dir/$dept-faculty-names.csv)
+            sleep 5
         end
 
         # course names e.g. INDIV-101
@@ -81,6 +85,7 @@ for dept in $depts
             log "Updating $tax taxonomy"
             log (uptaxo --tid $uuid --pw $pw --un $un \
                 --csv $dir/$dept-courses.csv)
+            sleep 5
         end
 
         # course sections e.g. INDIV-101-01
@@ -90,6 +95,7 @@ for dept in $depts
             log "Updating $tax taxonomy"
             log (uptaxo --tid $uuid --pw $pw --un $un \
                 --csv $dir/$dept-section-names.csv)
+            sleep 5
         end
     end
 end

@@ -33,6 +33,7 @@ if [ ! -e "$taxo_file" ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
+    sleep 5
 end
 
 # combine departmental CSVs into division-level ones
@@ -62,6 +63,7 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-list-taxo.csv)
+    sleep 5
 end
 
 # course titles
@@ -71,6 +73,7 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-titles.csv)
+    sleep 5
 end
 
 # faculty names
@@ -80,6 +83,7 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-faculty-names.csv)
+    sleep 5
 end
 
 # course names e.g. ARCHT-101
@@ -89,6 +93,7 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-courses.csv)
+    sleep 5
 end
 
 # course sections
@@ -98,6 +103,7 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-section-names.csv)
+    sleep 5
 end
 
 # XList IDs
@@ -107,4 +113,5 @@ if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-xlist.csv)
+    sleep 5
 end

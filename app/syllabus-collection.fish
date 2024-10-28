@@ -29,6 +29,7 @@ if [ ! -e $taxo_file ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
+    sleep 5
 end
 
 # create CSVs for all taxonomies
@@ -47,6 +48,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv)
+    sleep 5
 end
 
 # course titles e.g. "Introduction to Painting"
@@ -55,6 +57,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-titles.csv)
+    sleep 5
 end
 
 # faculty names e.g. "Annemarie Haar, Eric Phetteplace"
@@ -63,6 +66,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-faculty-names.csv)
+    sleep 5
 end
 
 # course names e.g. INDIV-101
@@ -71,6 +75,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-courses.csv)
+    sleep 5
 end
 
 # course sections e.g. ANIMA-101-01
@@ -79,6 +84,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-section-names.csv)
+    sleep 5
 end
 
 # Xlist IDs
@@ -87,6 +93,7 @@ set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-xlist.csv)
+    sleep 5
 end
 
 # deptartment codes e.g. ANIMA
@@ -95,4 +102,5 @@ set uuid (eq tax --name $tax | jq -r '.uuid')
 if [ $uuid ]
     log "Updating $tax taxonomy"
     log (uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-dept-codes.csv)
+    sleep 5
 end
