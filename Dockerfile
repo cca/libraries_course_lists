@@ -19,7 +19,7 @@ ENV NVM_DIR=/root/.nvm
 RUN . /root/.nvm/nvm.sh && nvm install stable
 RUN . /root/.nvm/nvm.sh && npm install -g equella-cli
 
-COPY . /app
+COPY app /app
 WORKDIR /app
 
 CMD ["sleep", "infinity"]

@@ -1,0 +1,12 @@
+services:
+  courselists:
+    build:
+      context: .
+      tags:
+      - "courselists:latest"
+    image: courseslists
+    pull_policy: build
+    volumes:
+      - ./complete:/app/complete
+      - ./data:/app/data
+      - ./logs:/app/logs

@@ -13,7 +13,7 @@ set dept $argv[1]
 set filename $argv[2]
 
 csvcut -c 3 $filename | tail -n +2 | sort | uniq > data/$dept-course-titles.csv
-csvcut -c 4 $filename | tail -n +2 | sort | uniq | gsed -E /Standby/Id > data/$dept-faculty-names.csv
+csvcut -c 4 $filename | tail -n +2 | sort | uniq | sed -E /Standby/Id > data/$dept-faculty-names.csv
 csvcut -c 5 $filename | tail -n +2 | sort | uniq > data/$dept-section-names.csv
 csvcut -c 6 $filename | tail -n +2 | sort | uniq > data/$dept-courses.csv
 log "Wrote $dept course titles, faculty, sections, and courses CSVs…"
