@@ -11,17 +11,17 @@ set dir data
 set filename $argv[1]
 set taxo_file data/taxonomies.json
 
-set un (jq -r '.username' ~/.equellarc)
+set un (jq -r '.username' .equellarc)
 set pw $argv[2]
 if [ -z $pw ]
-    set pw (op >/dev/null && op item get "VAULT ($un)" --reveal --fields password || jq -r '.password' ~/.equellarc)
+    set pw (op >/dev/null && op item get "VAULT ($un)" --reveal --fields password || jq -r '.password' .equellarc)
 end
 
 if [ $un = "" ]
-    echo "Error: requires a username property in ~/.equellarc"
+    echo "Error: requires a username property in .equellarc"
     exit 1
 else if [ -z $pw ]; or [ $pw = null ]
-    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in ~/.equellarc"
+    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in .equellarc"
     exit 1
 end
 

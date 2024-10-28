@@ -12,14 +12,16 @@ if [ ! -f "$filename" ]
     exit 1
 end
 
-set un (jq -r '.username' ~/.equellarc)
-set pw (op >/dev/null && op item get "VAULT ($un)" --reveal --fields password --reveal || jq -r '.password' ~/.equellarc)
+set un (jq -r '.username' .equellarc)
+if [ -z $pw ]
+    set pw (op >/dev/null && op item get "VAULT ($un)" --reveal --fields password --reveal || jq -r '.password' .equellarc)
+end
 
 if [ $un = "" ]
-    echo "Error: requires a username property in ~/.equellarc" >&2
+    echo "Error: requires a username property in .equellarc" >&2
     exit 1
 else if [ -z $pw ]; or [ $pw = null ]
-    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in ~/.equellarc" >&2
+    echo "Error: requires either a OnePassword login named 'VAULT ($un)' or a password property in .equellarc" >&2
     exit 1
 end
 
