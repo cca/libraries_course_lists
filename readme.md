@@ -2,11 +2,31 @@
 
 Scripts to process course information into sets of departmental CSVs, which are then uploaded into VAULT as openEQUELLA taxonomies.
 
-## Usage
+This project expects us to generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `pipenv run python make_informer_csv.py`.
 
-First, generate a course information CSV using our other project [cca/libraries_course_lists2](https://github.com/cca/libraries_course_lists2) by downloading the Workday JSON course data and running `pipenv run python make_informer_csv.py`.
+## Docker Usage
 
-Once you have the course data—expected to be named "_informer.csv" and in the "data" directory—run the scripts in this order:
+It is easier to build and run a Docker image than to worry about [the requirements](#requirements) enumerated below. The docker-compose project mounts the local complete, data, and logs directories as volumes.
+
+```sh
+# build image & run as container with data volumes
+docker-compose up -d
+# get user password (example using 1Password CLI)
+set UN (jq -r '.username' app/.equellarc)
+set PW (op item get "VAULT ($UN)" --reveal --fields password --reveal)
+# run bash on container with "pw" env var
+docker exec -it -e pw=$PW course_lists-courselists-1 bash
+```
+
+Then perform the "local usage" steps below. Run `docker-compose down` when finished.
+
+We may want to run `docker image prune` on occasion to clean up "dangling" old images. They tend to not take up much disk space but clutter the `docker images` list.
+
+## Local Usage
+
+These steps can be run locally on our host machine if we have the complete setup or on a shell on the Docker container. Docker container is recommended. If we're not in the container, `cd app` to enter the code directory.
+
+Once we have the course data—named "_informer.csv" in these examples and in the "data" directory—run the scripts in this order:
 
 ```sh
 # create ALL the CSVs
@@ -20,17 +40,6 @@ Once you have the course data—expected to be named "_informer.csv" and in the 
 # files are archived in the /complete/$date directory afterwards
 ```
 
-## Docker image
-
-Try building and running a Docker image instead of worrying about all [the requirements](#requirements) below.
-
-```sh
-# build image
-docker build -t courselists:latest .
-# run with PW environment variable
-docker run --rm -it -e PW=(op item get "VAULT ($un)" --reveal --fields password --reveal) courselists:latest /bin/bash
-```
-
 ## Files Generated
 
 **CSVs** are placed in a "data" directory under the root of the project. They are named `${DEPARTMENT}-${TYPE}.csv` e.g. `ANIMA-course-titles.csv`. Most are just plain text lists but the "course-list-taxo" ones are more complicated and adhere to the upload format that the openEQUELLA taxonomy upload script necessitates.
@@ -39,7 +48,7 @@ docker run --rm -it -e PW=(op item get "VAULT ($un)" --reveal --fields password 
 
 ## Requirements
 
-The setup.sh script should get us most of the way there.
+The setup.sh script gets us most of the way there.
 
 - `mise` for python and node programming language version management
 - Node, python 2.7, and python 3, `mise install`
