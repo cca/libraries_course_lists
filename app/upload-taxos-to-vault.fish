@@ -13,7 +13,7 @@ if [ ! -f "$filename" ]
 end
 
 set un (jq -r '.username' ~/.equellarc)
-set pw (op item get "VAULT ($un)" --reveal --fields password --reveal || jq -r '.password' ~/.equellarc)
+set pw (op >/dev/null && op item get "VAULT ($un)" --reveal --fields password --reveal || jq -r '.password' ~/.equellarc)
 
 if [ $un = "" ]
     echo "Error: requires a username property in ~/.equellarc" >&2
