@@ -21,5 +21,6 @@ RUN . /root/.nvm/nvm.sh && npm install -g equella-cli
 
 COPY app /app
 WORKDIR /app
+ENV PATH="$PATH:/app"
 
 CMD ["sleep", "infinity"]
