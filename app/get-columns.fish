@@ -22,8 +22,12 @@ log "Wrote $dept course titles, faculty, sections, and courses CSVs…"
 # --no-inference REQUIRED b/c otherwise it translates "MARCH" to "9999-03-31"
 csvsort --snifflimit 0 --no-inference $filename > tmp
 mv tmp $filename
-if [ $dept = ARCHT -o $dept = BARCH -o $dept = INTER -o $dept = MARCH -o $dept = SYLLABUS ]
+if [ $dept = ARCHT -o $dept = BARCH -o $dept = INTER -o $dept = MARCH ]
     ./course-csv-to-taxo.py --program $filename > data/$dept-course-list-taxo.csv
+else if [ $dept = SYLLABUS ]
+    # #3 Omit ISC courses from SYLLABUS - COURSE LIST
+    cat $filename | sed -e '/FINAR-6600/d' -e '/Individual Studio Critique/d' > data/$dept.csv
+    ./course-csv-to-taxo.py --program data/$dept.csv > data/$dept-course-list-taxo.csv
 else
     ./course-csv-to-taxo.py $filename > data/$dept-course-list-taxo.csv
 end
