@@ -5,8 +5,7 @@
 #
 # usage:
 #   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2021'
-# flags:
-#   --no-syllabus   do not delete from the Syllabus Collection
+# add --no-syllabus on the end to prevent deleting Syllabus Collection terms
 
 # load log function
 source log.fish
