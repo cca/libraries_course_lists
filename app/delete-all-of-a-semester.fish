@@ -5,6 +5,8 @@
 #
 # usage:
 #   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2021'
+# flags:
+#   --no-syllabus   do not delete from the Syllabus Collection
 
 # load log function
 source log.fish
@@ -17,7 +19,11 @@ set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     sed -e '/ARCHT/d' -e '/BARCH/d' -e '/CRITI/d' -e '/FNART/d' -e '/INTER/d' \
     -e '/MARCH/d' -e '/MAAD/d' )
 # manually add exceptions: Architecture Division, & Syllabus Coll (formerly ENGAGE, too)
-set depts $depts 'ARCH DIV' SYLLABUS
+set depts $depts 'ARCH DIV'
+# --no-syllabus skips Syllabus Collection, see https://github.com/cca/libraries_course_lists/issues/4
+if not contains -- --no-syllabus $argv
+    set depts $depts SYLLABUS
+end
 
 # cache taxonomy list in data file
 if [ ! -e "$taxo_file" ]
