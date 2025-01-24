@@ -13,7 +13,7 @@ It is easier to build and run a Docker image than to worry about [the requiremen
 docker-compose up -d
 # get user password (example using 1Password CLI)
 set UN (jq -r '.username' app/.equellarc)
-set PW (op item get "VAULT ($UN)" --reveal --fields password --reveal)
+set PW (op item get "VAULT ($UN)" --reveal --fields password)
 # run bash on container with "pw" env var
 docker exec -it -e pw=$PW course_lists-courselists-1 bash
 ```
