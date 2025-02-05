@@ -4,15 +4,32 @@
 # so instead we delete them all & then re-upload a new set of courses
 #
 # usage:
-#   ./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2021'
+#   ./delete-all-of-a-semester.fish [data/_informer.csv] 'Fall 2021'
 # add --no-syllabus on the end to prevent deleting Syllabus Collection terms
 
 # load log function
 source log.fish
 
 set filename $argv[1]
-set taxo_file data/taxonomies.json
 set semester $argv[2]
+
+if [ ! -f "$filename" ]
+    if [ -f "data/_informer.csv" ]
+        # implicit data/_informer.csv so first arg is semester
+        set filename "data/_informer.csv"
+        set semester $argv[1]
+    else
+        echo "Error: no data/_informer.csv and the first argument is not a path to the courses CSV" >&2
+        exit 1
+    end
+end
+
+if not string match --regex "[A-Z][a-z]+ [0-9]{4}" "$semester" >/dev/null
+    echo "Error: '$semester' is not a valid semester string in the form 'SEASON YEAR' e.g. 'Spring 2023'" >&2
+    exit 1
+end
+
+set taxo_file data/taxonomies.json
 set depts (csvcut -c 2 $filename | tail -n +2 | sort | uniq | \
     # delete special snowflakes
     sed -e '/ARCHT/d' -e '/BARCH/d' -e '/CRITI/d' -e '/FNART/d' -e '/INTER/d' \
@@ -29,11 +46,6 @@ if [ ! -e "$taxo_file" ]
     log "Downloading taxonomy list to $taxo_file"
     # make sure to get all of them with the length param
     eq tax --path '?length=5000' >$taxo_file
-end
-
-if not string match --regex "[A-Z][a-z]+ [0-9]{4}" "$semester" >/dev/null
-    echo "Error: '$semester' is not a valid semester string in the form 'SEASON YEAR' e.g. 'Spring 2023'" >&2
-    exit 1
 end
 
 for dept in $depts

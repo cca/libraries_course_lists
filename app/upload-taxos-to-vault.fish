@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 # usage:
-#   ./upload-taxos-to-vault.fish data/_informer.csv [--courses]
+#   ./upload-taxos-to-vault.fish [data/_informer.csv] [--courses]
 # where "informer.csv" is the full semester of course information
 
 source log.fish
@@ -8,8 +8,12 @@ source log.fish
 set filename $argv[1]
 
 if [ ! -f "$filename" ]
-    echo "Error: first argument must be path to a courses CSV file" >&2
-    exit 1
+    if [ -f "data/_informer.csv" ]
+        set filename "data/_informer.csv"
+    else
+        echo "Error: no data/_informer.csv and the first argument is not a path to the courses CSV" >&2
+        exit 1
+    end
 end
 
 set un (jq -r '.username' .equellarc)

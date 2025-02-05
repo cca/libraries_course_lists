@@ -26,17 +26,17 @@ We may want to run `docker image prune` on occasion to clean up "dangling" old i
 
 These steps can be run locally on our host machine if we have the complete setup or on a shell on the Docker container. Docker container is recommended. If we're not in the container, `cd app` to enter the code directory.
 
-Once we have the course data—named "_informer.csv" in these examples and in the "data" directory—run the scripts in this order:
+If we place the course data at the path "data/_informer.csv" then it does not have to be passed to the scripts. Run the scripts in this order:
 
 ```sh
 # create ALL the CSVs
-./make-all-taxo-csvs.fish data/_informer.csv
+./make-all-taxo-csvs.fish path/to/courses.csv
 # delete the last semester's taxonomy terms, only run if not the initial upload
-./delete-all-of-a-semester.fish data/_informer.csv 'Fall 2023'
+./delete-all-of-a-semester.fish path/to/courses.csv 'Spring 2025'
 # upload everything to VAULT, takes a while
-./upload-taxos-to-vault.fish data/_informer.csv
+./upload-taxos-to-vault.fish path/to/courses.csv
 # upload only the course list taxonomies to VAULT
-./upload-taxos-to-vault.fish data/_informer.csv --courses
+./upload-taxos-to-vault.fish path/to/courses.csv --courses
 # files are archived in the /complete/$date directory afterwards
 ```
 

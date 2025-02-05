@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 # usage:
-#   ./make-all-taxo-csvs.fish data/_informer.csv
+#   ./make-all-taxo-csvs.fish [data/_informer.csv]
 #
 # where "_informer.csv" is the full semester course information, it can be
 # created by the "course_lists2" project with "make_informer_csv.py"
@@ -8,8 +8,12 @@
 set filename $argv[1]
 
 if [ ! -f "$filename" ]
-    echo "Error: first argument must be path to a courses CSV file" >&2
-    exit 1
+    if [ -f "data/_informer.csv" ]
+        set filename "data/_informer.csv"
+    else
+        echo "Error: no data/_informer.csv and the first argument is not a path to the courses CSV" >&2
+        exit 1
+    end
 end
 
 source log.fish
