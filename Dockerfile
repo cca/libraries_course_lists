@@ -6,6 +6,7 @@ LABEL maintainer="Eric Phetteplace <ephetteplace@cca.edu>"
 LABEL name="courselists"
 LABEL url="https://github.com/cca/course_lists"
 
+ENV TZ="America/Los_Angeles"
 RUN apt-get update && apt-get install -y \
     csvkit \
     fish \
