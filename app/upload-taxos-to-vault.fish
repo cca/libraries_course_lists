@@ -29,6 +29,10 @@ else if [ -z $pw ]; or [ $pw = null ]
     exit 1
 end
 
+if contains -- --courses $argv
+    set courses_flag "--courses"
+end
+
 set taxo_file data/taxonomies.json
 set dir data
 
@@ -63,7 +67,7 @@ for dept in $depts
         sleep 5
     end
 
-    if not contains -- --courses $argv
+    if not set --query courses_flag
         # course titles e.g. "Introduction to Printmaking"
         set tax "$dept - course titles"
         set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
@@ -110,12 +114,12 @@ end
 # Syllabus Collection, Architecture Division
 # we provide the password to these so we don't have to reauthenticate
 log 'Updating Syllabus Collection...'
-./syllabus-collection.fish $filename $pw
+./syllabus-collection.fish $filename $pw $courses_flag
 # since Architecture programs' individual taxonomies have
 # already been created, the necessary files are in the "data"
 # dir and we don't need to pass $filename to the script
 log 'Updating Architecture Division...'
-./arch-division.fish $pw
+./arch-division.fish $pw $courses_flag
 
 # move files from "data" dir to "complete/${date}" where date is today's date
 set today (date "+%Y-%m-%d")

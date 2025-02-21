@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 # handle Architecture Division's special taxonomies, which include departmental codes
 # usage:
-#   ./arch-division.fish
+#   ./arch-division.fish [password] [--courses]
 #
 # run ONLY AFTER extracting all the departmental CSVs, e.g. by running the Informer
 # report & running ./make-all-taxo-csvs.fish data/_informer.csv
@@ -66,52 +66,54 @@ if [ -n "$uuid" ]
     sleep 5
 end
 
-# course titles
-set tax "$div - course titles"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ -n "$uuid" ]
-    log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
+if not contains -- --courses $argv
+    # course titles
+    set tax "$div - course titles"
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+    if [ -n "$uuid" ]
+        log "Updating $tax taxonomy"
+        log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-course-titles.csv)
-    sleep 5
-end
+        sleep 5
+    end
 
-# faculty names
-set tax "$div - faculty"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ -n "$uuid" ]
-    log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
+    # faculty names
+    set tax "$div - faculty"
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+    if [ -n "$uuid" ]
+        log "Updating $tax taxonomy"
+        log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-faculty-names.csv)
-    sleep 5
-end
+        sleep 5
+    end
 
-# course names e.g. ARCHT-101
-set tax "$div - course names"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ -n "$uuid" ]
-    log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
+    # course names e.g. ARCHT-101
+    set tax "$div - course names"
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+    if [ -n "$uuid" ]
+        log "Updating $tax taxonomy"
+        log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-courses.csv)
-    sleep 5
-end
+        sleep 5
+    end
 
-# course sections
-set tax "$div - course sections"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ -n "$uuid" ]
-    log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
+    # course sections
+    set tax "$div - course sections"
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+    if [ -n "$uuid" ]
+        log "Updating $tax taxonomy"
+        log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-section-names.csv)
-    sleep 5
-end
+        sleep 5
+    end
 
-# XList IDs
-set tax "$div - cross-list keys"
-set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
-if [ -n "$uuid" ]
-    log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
+    # XList IDs
+    set tax "$div - cross-list keys"
+    set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
+    if [ -n "$uuid" ]
+        log "Updating $tax taxonomy"
+        log (uptaxo --tid $uuid --pw $pw --un $un \
         --csv $dir/$div-xlist.csv)
-    sleep 5
+        sleep 5
+    end
 end
