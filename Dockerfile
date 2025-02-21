@@ -1,16 +1,17 @@
 # https://hub.docker.com/_/python/tags?name=2.7.
 FROM python:2.7.18
-LABEL build_date="2024-10-03"
 LABEL description="Update VAULT course lists"
 LABEL maintainer="Eric Phetteplace <ephetteplace@cca.edu>"
 LABEL name="courselists"
 LABEL url="https://github.com/cca/course_lists"
 
 ENV TZ="America/Los_Angeles"
-RUN apt-get update && apt-get install -y \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN apt-get update && apt-get install -y --no-install-recommends \
     csvkit \
     fish \
-    jq
+    jq \
+    && rm -rf /var/lib/apt/lists/*
 
 # install nvm then node then equella-cli
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
