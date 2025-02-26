@@ -62,8 +62,7 @@ for dept in $depts
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-            --csv $dir/$dept-course-list-taxo.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-list-taxo.csv
         sleep 5
     end
 
@@ -73,8 +72,7 @@ for dept in $depts
         set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
         if [ -n "$uuid" ]
             log "Updating $tax taxonomy"
-            log (uptaxo --tid $uuid --pw $pw --un $un \
-                --csv $dir/$dept-course-titles.csv)
+            log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-course-titles.csv
             sleep 5
         end
 
@@ -83,8 +81,7 @@ for dept in $depts
         set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
         if [ -n "$uuid" ]
             log "Updating $tax taxonomy"
-            log (uptaxo --tid $uuid --pw $pw --un $un \
-                --csv $dir/$dept-faculty-names.csv)
+            log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-faculty-names.csv
             sleep 5
         end
 
@@ -93,8 +90,7 @@ for dept in $depts
         set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
         if [ -n "$uuid" ]
             log "Updating $tax taxonomy"
-            log (uptaxo --tid $uuid --pw $pw --un $un \
-                --csv $dir/$dept-courses.csv)
+            log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-courses.csv
             sleep 5
         end
 
@@ -103,8 +99,7 @@ for dept in $depts
         set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
         if [ -n "$uuid" ]
             log "Updating $tax taxonomy"
-            log (uptaxo --tid $uuid --pw $pw --un $un \
-                --csv $dir/$dept-section-names.csv)
+            log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$dept-section-names.csv
             sleep 5
         end
     end

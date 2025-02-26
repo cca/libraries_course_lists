@@ -26,8 +26,8 @@ set types course-list-taxo course-titles courses faculty-names section-names
 
 for dept in $depts
     # slice rows from deparment into own CSV
-    csvgrep -c 2 -r $dept $filename >data/$dept.csv
-    and log "Cut $dept department rows out of $filename report"
+    log "Cutting $dept department rows out of $filename report"
+    csvgrep -c 2 -r $dept $filename > data/$dept.csv
     # separate script breaks out all the necessary columns into own CSVs
     # and creates EQUELLA-ready taxonomy in the process
     ./get-columns.fish $dept data/$dept.csv
@@ -43,10 +43,3 @@ if test -e data/CRITI.csv -a -e data/INTDS.csv
     end
     rm -v data/CRITI.csv
 end
-
-# ENGAGE courses could be under any department, handle as a special case
-# TODO we have not had an ENGAGE course since 2020, is this convention still used?
-# log 'Creating ENGAGE course taxonomies'
-# set dept ENGAGE
-# csvgrep -c 3 -r 'Engage:' $filename | tail -n +2 >data/$dept.csv
-# ./course-csv-to-taxo.py data/ENGAGE.csv >data/$dept-course-list-taxo.csv

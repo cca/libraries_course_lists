@@ -8,7 +8,6 @@
 
 # load log function
 source log.fish
-set -x LOGFILE logs/(date "+%Y-%m-%d")-architecture.txt
 set taxo_file data/taxonomies.json
 set depts ARCHT BARCH INTER MARCH
 set div 'ARCH DIV'
@@ -46,12 +45,12 @@ rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv \
 # concatenate program data to make division-level taxos,
 # silencing stderr because one of ARCHT/BARCH will always be missing
 for dept in $depts
-    cat $dir/$dept-course-list-taxo.csv 2>/dev/null >>$dir/$div-course-list-taxo.csv
-    cat $dir/$dept-course-titles.csv 2>/dev/null >>$dir/$div-course-titles.csv
-    cat $dir/$dept-courses.csv 2>/dev/null >>$dir/$div-courses.csv
-    cat $dir/$dept-faculty-names.csv 2>/dev/null >>$dir/$div-faculty-names.csv
-    cat $dir/$dept-section-names.csv 2>/dev/null >>$dir/$div-section-names.csv
-    csvcut -c 7 $dir/$dept.csv 2>/dev/null | sort | uniq | sed '/""/d' >>$dir/$div-xlist.csv
+    cat $dir/$dept-course-list-taxo.csv 2>/dev/null >> $dir/$div-course-list-taxo.csv
+    cat $dir/$dept-course-titles.csv 2>/dev/null >> $dir/$div-course-titles.csv
+    cat $dir/$dept-courses.csv 2>/dev/null >> $dir/$div-courses.csv
+    cat $dir/$dept-faculty-names.csv 2>/dev/null >> $dir/$div-faculty-names.csv
+    cat $dir/$dept-section-names.csv 2>/dev/null >> $dir/$div-section-names.csv
+    csvcut -c 7 $dir/$dept.csv 2>/dev/null | sort | uniq | sed '/""/d' >> $dir/$div-xlist.csv
 end
 
 # upload new, division-level CSVs to appropriate taxonomies
@@ -61,8 +60,7 @@ set tax "$div - COURSE LIST"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
-    log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-course-list-taxo.csv)
+    log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-course-list-taxo.csv
     sleep 5
 end
 
@@ -72,8 +70,7 @@ if not contains -- --courses $argv
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-course-titles.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-course-titles.csv
         sleep 5
     end
 
@@ -82,8 +79,7 @@ if not contains -- --courses $argv
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-faculty-names.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-faculty-names.csv
         sleep 5
     end
 
@@ -92,8 +88,7 @@ if not contains -- --courses $argv
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-courses.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-courses.csv
         sleep 5
     end
 
@@ -102,8 +97,7 @@ if not contains -- --courses $argv
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-section-names.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-section-names.csv
         sleep 5
     end
 
@@ -112,8 +106,7 @@ if not contains -- --courses $argv
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
-        log (uptaxo --tid $uuid --pw $pw --un $un \
-        --csv $dir/$div-xlist.csv)
+        log uptaxo --tid $uuid --pw $pw --un $un --csv $dir/$div-xlist.csv
         sleep 5
     end
 end
