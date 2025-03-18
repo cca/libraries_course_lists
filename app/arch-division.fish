@@ -10,9 +10,8 @@
 source log.fish
 set taxo_file data/taxonomies.json
 set depts ARCHT BARCH INTER MARCH
-set div 'ARCH DIV'
+set div 'ARCHDIV'
 set dir data
-set taxo_file data/taxonomies.json
 
 set un (jq -r '.username' .equellarc)
 set pw $argv[1]
@@ -38,25 +37,28 @@ end
 # combine departmental CSVs into division-level ones
 # wipe out any previous division-level taxos, lets the script be run multiple times
 log 'Deleting any previous taxonomy files'
-rm -v $dir/$div-course-list-taxo.csv $dir/$div-course-titles.csv \
-    $dir/$div-courses.csv $dir/$div-faculty-names.csv \
-    $dir/$div-section-names.csv 2>/dev/null
+rm -v $dir/$div-course-list-taxo.csv \
+    $dir/$div-course-titles.csv \
+    $dir/$div-courses.csv \
+    $dir/$div-faculty-names.csv \
+    $dir/$div-section-names.csv \
+    $dir/$div-xlist.csv 2>/dev/null
 
 # concatenate program data to make division-level taxos,
 # silencing stderr because one of ARCHT/BARCH will always be missing
 for dept in $depts
-    cat $dir/$dept-course-list-taxo.csv 2>/dev/null >> $dir/$div-course-list-taxo.csv
-    cat $dir/$dept-course-titles.csv 2>/dev/null >> $dir/$div-course-titles.csv
-    cat $dir/$dept-courses.csv 2>/dev/null >> $dir/$div-courses.csv
-    cat $dir/$dept-faculty-names.csv 2>/dev/null >> $dir/$div-faculty-names.csv
-    cat $dir/$dept-section-names.csv 2>/dev/null >> $dir/$div-section-names.csv
-    csvcut -c 7 $dir/$dept.csv 2>/dev/null | sort | uniq | sed '/""/d' >> $dir/$div-xlist.csv
+    cat $dir/$dept-course-list-taxo.csv 2>/dev/null >> "$dir/$div-course-list-taxo.csv"
+    cat $dir/$dept-course-titles.csv 2>/dev/null >> "$dir/$div-course-titles.csv"
+    cat $dir/$dept-courses.csv 2>/dev/null >> "$dir/$div-courses.csv"
+    cat $dir/$dept-faculty-names.csv 2>/dev/null >> "$dir/$div-faculty-names.csv"
+    cat $dir/$dept-section-names.csv 2>/dev/null >> "$dir/$div-section-names.csv"
+    csvcut -c 7 $dir/$dept.csv 2>/dev/null | sort | uniq | sed '/""/d' >> "$dir/$div-xlist.csv"
 end
 
 # upload new, division-level CSVs to appropriate taxonomies
 
 # main course list
-set tax "$div - COURSE LIST"
+set tax "ARCH DIV - COURSE LIST"
 set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
 if [ -n "$uuid" ]
     log "Updating $tax taxonomy"
@@ -66,7 +68,7 @@ end
 
 if not contains -- --courses $argv
     # course titles
-    set tax "$div - course titles"
+    set tax "ARCH DIV - course titles"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
@@ -75,7 +77,7 @@ if not contains -- --courses $argv
     end
 
     # faculty names
-    set tax "$div - faculty"
+    set tax "ARCH DIV - faculty"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
@@ -84,7 +86,7 @@ if not contains -- --courses $argv
     end
 
     # course names e.g. ARCHT-101
-    set tax "$div - course names"
+    set tax "ARCH DIV - course names"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
@@ -93,7 +95,7 @@ if not contains -- --courses $argv
     end
 
     # course sections
-    set tax "$div - course sections"
+    set tax "ARCH DIV - course sections"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
@@ -102,7 +104,7 @@ if not contains -- --courses $argv
     end
 
     # XList IDs
-    set tax "$div - cross-list keys"
+    set tax "ARCH DIV - cross-list keys"
     set uuid (jq -r ".results[] | select(.name == \"$tax\") | .uuid" $taxo_file)
     if [ -n "$uuid" ]
         log "Updating $tax taxonomy"
