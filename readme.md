@@ -14,11 +14,13 @@ docker-compose up -d
 # get user password (example using 1Password CLI)
 set UN (jq -r '.username' app/.equellarc)
 set PW (op item get "VAULT ($UN)" --reveal --fields password)
-# run fish on container with "pw" env var
-docker exec -it -e pw=$PW course_lists-courselists-1 fish
+# run bash shell on container with "pw" env var
+docker exec -it -e pw=$PW course_lists-courselists-1 bash
 ```
 
 Then perform the "local usage" steps below. Run `docker-compose down` when finished.
+
+It somewhat convoluted to need to run bash in order to run fish scripts, but the way we install node (nvm) in the image would take extra steps to make work with fish shell.
 
 We may want to run `docker image prune` on occasion to clean up "dangling" old images. They tend to not take up much disk space but clutter the `docker images` list.
 

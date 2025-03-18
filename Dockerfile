@@ -18,6 +18,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | b
 ENV NVM_DIR=/root/.nvm
 # /bin/sh is dash on Debian, which doesn't support `source`
 # . doesn't permanently modify PATH so we do it before `npm` cmds too
+# TODO nvm.sh only works in bash, not fish
 RUN . /root/.nvm/nvm.sh && nvm install stable
 RUN . /root/.nvm/nvm.sh && npm install -g equella-cli
 
