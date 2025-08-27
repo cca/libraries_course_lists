@@ -45,6 +45,22 @@ These steps can be run locally on our host machine if we have the complete setup
 
 **Logs** are made automatically for the most part and placed in a "logs" directory under the root of the project. They are named after the current date.
 
+## Docker build and push
+
+To build and store a new image in Google Artifact Registry, do this:
+
+```sh
+# with docker running
+docker build .
+# switch to the staging project, this assumes a `staging` config
+gcloud config configurations activate staging
+gcloud auth configure-docker us-west1-docker.pkg.dev
+docker tag courselists:latest us-west1-docker.pkg.dev/cca-web-staging/cca-docker-web/courselists:latest
+docker push us-west1-docker.pkg.dev/cca-web-staging/cca-docker-web/courselists:latest
+```
+
+To use the image later: `gcloud auth configure-docker us-west1-docker.pkg.dev && docker pull us-west1-docker.pkg.dev/cca-web-staging/cca-docker-web/courselists`.
+
 ## Requirements
 
 The setup.sh script or using the Docker image should do all this for us.
