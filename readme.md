@@ -9,20 +9,16 @@ This project expects us to generate a course information CSV using our other pro
 It is easier to build and run a Docker image than to worry about [the requirements](#requirements) below. The docker-compose project mounts the local complete, data, and logs directories as volumes.
 
 ```sh
+docker desktop start
 # build image & run as container with data volumes
 docker-compose up -d
-# get user password (example using 1Password CLI)
+# get user password (using Dashlane CLI, see setup below)
 set UN (jq -r '.username' app/.equellarc)
-set PW (op item get "VAULT ($UN)" --reveal --fields password)
-# run bash shell on container with "pw" env var
-docker exec -it -e pw=$PW course_lists-courselists-1 bash
+ # pass the "VAULT (username)" password to bash shell on container
+docker exec -it -e pw=(dcli p -o console title="VAULT ($UN)") course_lists-courselists-1 bash
 ```
 
-Then perform the "local usage" steps below. Run `docker-compose down` when finished.
-
-It somewhat convoluted to need to run bash in order to run fish scripts, but the way we install node (nvm) in the image would take extra steps to make work with fish shell.
-
-We may want to run `docker image prune` on occasion to clean up "dangling" old images. They tend to not take up much disk space but clutter the `docker images` list.
+Then perform the "local usage" steps below in the shell. Run `docker-compose down` when finished.
 
 ## Local Usage
 
@@ -32,7 +28,7 @@ These steps can be run locally on our host machine if we have the complete setup
 # create ALL the CSVs
 ./make-all-taxo-csvs.fish path/to/courses.csv
 # delete the last semester's taxonomy terms, only run if not the initial upload
-./delete-all-of-a-semester.fish path/to/courses.csv 'Spring 2025'
+./delete-all-of-a-semester.fish path/to/courses.csv 'Fall 2026'
 # upload everything to VAULT, takes a while
 ./upload-taxos-to-vault.fish path/to/courses.csv
 # OR upload only the course list taxonomies to VAULT
@@ -72,10 +68,23 @@ The setup.sh script or using the Docker image should do all this for us.
 - `jq` command-line JSON processor, `brew install jq`
 - [`eq`](https://github.com/cca/equella_cli), `npm i -g equella-cli`, with an ".equellarc" file either in our home directory or in "app". The account in the .equellarc file needs read/write permissions for Taxonomies.
 - (included in this repo) the [`uptaxo` script](https://gist.github.com/phette23/9bec679b7b677af7e396e8a40e7a7047) which wraps a light CLI around the EQUELLA taxonomy update script and its dependencies `equellasoap.py` and `util.py` from the [openEQUELLA docs repo](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python).
+- optional: [Dashlane CLI](https://cli.dashlane.com/)
 
-## Using Python 2.7
+### Dashlane CLI Setup
 
-The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and will probably never be updated to Python 3. TLDR;
+Have a login saved in Dashlane with a predictable name like "VAULT (username)" (see ["Docker Usage"](#docker-usage) above.
+
+```sh
+# https://cli.dashlane.com/install
+brew install dashlane/tap/dashlane-cli # install
+dcli sync # login
+```
+
+I recommend using only one of biometrics or master password to unlock. The shell commands may need adjusting depending on authentication method; you cannot pipe or `set` a var easily with master password. Despite using CCA's organizational Dashlane subscription, we follow the "Personal" account instructions in their documentation. The ["Accessing your Vault" instructions](https://cli.dashlane.com/personal/vault) detail how to use `dcli` to retrieve credentials.
+
+### Using Python 2.7
+
+The [EQUELLA SOAP API scripts](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python) mentioned under requirements were written for Python 2 and may never be updated to Python 3. TLDR;
 
 ```sh
 brew install openssl@1.1
@@ -83,7 +92,7 @@ mise install python 2.7.18
 mise local python 2.7.18 3.12
 ```
 
-Python 2.7 should install OK from `mise`. I found that openssl@1.1 is necessary, 1.0.2 will throw errors.
+Python 2.7 should install OK from `mise`. I found openssl@1.1 necessary, 1.0.2 will throw errors.
 
 ## LICENSE
 
