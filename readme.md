@@ -12,10 +12,9 @@ It is easier to build and run a Docker image than to worry about [the requiremen
 docker desktop start
 # build image & run as container with data volumes
 docker-compose up -d
-# get user password (using Dashlane CLI, see setup below)
 set UN (jq -r '.username' app/.equellarc)
- # pass the "VAULT (username)" password to bash shell on container
-docker exec -it -e pw=(dcli p -o console title="VAULT ($UN)") course_lists-courselists-1 bash
+ # pass the "CCA (username)" password to bash shell on container
+docker exec -it -e pw=$(op item get "CCA ($UN)" --fields password --reveal) course_lists-courselists-1 bash
 ```
 
 Then perform the "local usage" steps below in the shell. Run `docker-compose down` when finished.
@@ -68,7 +67,7 @@ The setup.sh script or using the Docker image should do all this for us.
 - `jq` command-line JSON processor, `brew install jq`
 - [`eq`](https://github.com/cca/equella_cli), `npm i -g equella-cli`, with an ".equellarc" file either in our home directory or in "app". The account in the .equellarc file needs read/write permissions for Taxonomies.
 - (included in this repo) the [`uptaxo` script](https://gist.github.com/phette23/9bec679b7b677af7e396e8a40e7a7047) which wraps a light CLI around the EQUELLA taxonomy update script and its dependencies `equellasoap.py` and `util.py` from the [openEQUELLA docs repo](https://github.com/openequella/openequella.github.io/tree/master/example-scripts/SOAP/python).
-- optional: [Dashlane CLI](https://cli.dashlane.com/)
+- optional: [Dashlane CLI](https://cli.dashlane.com/) or [1Password CLI](https://www.1password.dev/cli)
 
 ### Dashlane CLI Setup
 
