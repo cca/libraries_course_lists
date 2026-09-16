@@ -14,7 +14,7 @@ docker desktop start
 docker-compose up -d
 set UN (jq -r '.username' app/.equellarc)
  # pass the "CCA (username)" password to bash shell on container
-docker exec -it -e pw=$(op item get "CCA ($UN)" --fields password --reveal) course_lists-courselists-1 bash
+docker exec -it -e pw=(op item get "CCA ($UN)" --fields password --reveal) course_lists-courselists-1 bash
 ```
 
 Then perform the "local usage" steps below in the shell. Run `docker-compose down` when finished.
